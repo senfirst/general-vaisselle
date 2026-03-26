@@ -1,0 +1,374 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENERAL VAISELLE</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#f5f1e6;
+color:#000;
+}
+
+/* HEADER */
+header{
+background:#000;
+color:#f5f1e6;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
+font-weight:bold;
+font-size:22px;
+}
+
+.search-bar{
+width:50%;
+padding:10px;
+border-radius:5px;
+border:1px solid #ccc;
+}
+
+/* SECTION */
+.section{
+padding:20px;
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+/* PRODUIT */
+.produit{
+background:#fffaf0;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.produit img{
+width:100%;
+height:180px;
+object-fit:cover;
+}
+
+.produit-info{
+padding:10px;
+}
+
+.prix{
+color:#8b6f47;
+font-weight:bold;
+}
+
+/* BTN */
+.btn{
+background:#000;
+color:#f5f1e6;
+padding:8px;
+border:none;
+width:100%;
+cursor:pointer;
+border-radius:5px;
+font-weight:bold;
+margin-top:5px;
+}
+
+.btn:hover{
+background:#333;
+}
+
+.btn-danger{
+background:#8b0000;
+}
+
+/* PANIER */
+.panier-box{
+background:#fffaf0;
+padding:15px;
+border-radius:10px;
+margin-bottom:10px;
+}
+
+/* INPUT */
+input{
+padding:10px;
+margin:5px;
+width:90%;
+border-radius:5px;
+border:1px solid #ccc;
+background:#fffaf0;
+}
+
+.hidden{display:none;}
+.logo{
+display:flex;
+align-items:center;
+gap:10px;
+font-weight:bold;
+font-size:20px;
+color:#f5f1e6;
+}
+
+.logo img{
+height:40px;
+border-radius:6px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">🛒 GENERAL VAISELLE</div>
+<input type="text" id="recherche" class="search-bar" placeholder="Rechercher..." onkeyup="rechercherProduit()">
+<div class="logo">
+<img src="logo.png" alt="Logo GENERAL VAISELLE">
+</div>
+</header>
+
+<!-- LOGIN -->
+<section class="section">
+<h2>🔐 Admin</h2>
+<input type="password" id="password" placeholder="Mot de passe">
+<button class="btn" onclick="login()">Entrer</button>
+</section>
+
+<!-- ADMIN -->
+<section id="admin" class="section hidden">
+<h2>➕ Ajouter produit</h2>
+<input type="text" id="nom" placeholder="Nom">
+<input type="number" id="prix" placeholder="Prix">
+<input type="file" id="image">
+<button class="btn" onclick="ajouterProduit()">Ajouter</button>
+</section>
+
+<!-- COMMANDES -->
+<section id="commandesAdmin" class="section hidden">
+<h2>📦 Commandes reçues</h2>
+<div id="listeCommandes"></div>
+</section>
+
+<!-- PRODUITS -->
+<section class="section">
+<h2>Produits</h2>
+<div class="grid" id="produits"></div>
+</section>
+
+<!-- PANIER -->
+<section class="section">
+<h2>🛒 Panier</h2>
+<div id="panier" class="panier-box">Panier vide</div>
+<p><strong>Total: <span id="totalPrix">0</span> FCFA</strong></p>
+</section>
+
+<!-- LIVRAISON -->
+<section class="section">
+<h2>📦 Livraison</h2>
+<input type="text" id="clientNom" placeholder="Nom complet">
+<input type="text" id="clientTel" placeholder="Téléphone">
+<input type="text" id="clientAdresse" placeholder="Adresse">
+<button class="btn" onclick="commander()">Commander</button>
+</section>
+
+<script>
+let panier = [];
+let fraisLivraison = 500;
+let produits = JSON.parse(localStorage.getItem("produits")) || [];
+let commandes = JSON.parse(localStorage.getItem("commandes")) || [];
+let isAdmin = localStorage.getItem("admin") === "true";
+
+/* AUTO LOGIN */
+if(isAdmin){
+document.getElementById("admin").classList.remove("hidden");
+document.getElementById("commandesAdmin").classList.remove("hidden");
+}
+
+/* LOGIN SECURISE */
+function login(){
+let pass = document.getElementById("password").value;
+
+if(pass === "admin123"){
+localStorage.setItem("admin", "true");
+location.reload();
+}else{
+alert("Mot de passe incorrect");
+}
+}
+
+/* PRODUIT */
+function ajouterProduit(){
+let nom = document.getElementById("nom").value;
+let prix = parseInt(document.getElementById("prix").value);
+let image = document.getElementById("image").files[0];
+
+if(!nom || !prix || !image){
+alert("Remplir tous les champs");
+return;
+}
+
+let reader = new FileReader();
+
+reader.onload = function(e){
+let produit = {nom, prix, image:e.target.result};
+
+produits.push(produit);
+localStorage.setItem("produits", JSON.stringify(produits));
+afficherProduits();
+};
+
+reader.readAsDataURL(image);
+}
+
+function supprimerProduit(index){
+produits.splice(index,1);
+localStorage.setItem("produits", JSON.stringify(produits));
+afficherProduits();
+}
+
+/* RECHERCHE */
+function rechercherProduit(){
+let val = document.getElementById("recherche").value.toLowerCase();
+afficherProduits(produits.filter(p=>p.nom.toLowerCase().includes(val)));
+}
+
+/* PANIER */
+function ajouterProduitPanier(nom, prix){
+let exist = panier.find(p => p.nom === nom);
+if(exist){exist.qte++;} else {panier.push({nom, prix, qte:1});}
+afficherPanier();
+}
+
+function afficherPanier(){
+let div = document.getElementById("panier");
+div.innerHTML = "";
+let total = 0;
+
+panier.forEach((p,i)=>{
+let st = p.prix*p.qte;
+total += st;
+
+div.innerHTML += `
+<p>${p.nom} x${p.qte} = ${st} FCFA
+<button onclick="moins(${i})">➖</button>
+<button onclick="plus(${i})">➕</button>
+<button onclick="supprimer(${i})">❌</button>
+</p>`;
+});
+
+document.getElementById("totalPrix").innerText = total;
+}
+
+function plus(i){panier[i].qte++; afficherPanier();}
+function moins(i){panier[i].qte>1?panier[i].qte--:panier.splice(i,1); afficherPanier();}
+function supprimer(i){panier.splice(i,1); afficherPanier();}
+
+/* PRODUITS */
+function afficherProduits(liste = produits){
+let c = document.getElementById("produits");
+c.innerHTML="";
+
+liste.forEach((p,i)=>{
+c.innerHTML += `
+<div class="produit">
+<img src="${p.image}">
+<div class="produit-info">
+<h4>${p.nom}</h4>
+<p class="prix">${p.prix} FCFA</p>
+<button class="btn" onclick="ajouterProduitPanier('${p.nom}',${p.prix})">Ajouter</button>
+${isAdmin?`<button class="btn btn-danger" onclick="supprimerProduit(${i})">Supprimer</button>`:""}
+</div>
+</div>`;
+});
+}
+
+/* 📍 GEOLOCALISATION + COMMANDE */
+function commander(){
+let nom = document.getElementById("clientNom").value;
+let tel = document.getElementById("clientTel").value;
+let adresse = document.getElementById("clientAdresse").value;
+
+if(panier.length===0){alert("Panier vide");return;}
+if(!nom||!tel||!adresse){alert("Remplir infos");return;}
+
+navigator.geolocation.getCurrentPosition(function(pos){
+
+let lat = pos.coords.latitude;
+let lon = pos.coords.longitude;
+let map = `https://www.google.com/maps?q=${lat},${lon}`;
+
+let total = panier.reduce((s,p)=>s+p.prix*p.qte,0)+fraisLivraison;
+
+let commande = {nom,tel,adresse,panier,total,localisation:map,date:new Date().toLocaleString()};
+commandes.push(commande);
+localStorage.setItem("commandes",JSON.stringify(commandes));
+
+let msg = encodeURIComponent(
+`🛒 Commande GENERAL VAISELLE
+Nom:${nom}
+Tel:${tel}
+Adresse:${adresse}
+
+📍 Localisation: ${map}
+
+Articles:
+${panier.map(p=>p.nom+" x"+p.qte).join("\n")}
+
+Total:${total} FCFA`
+);
+
+window.open(`https://wa.me/221788626180?text=${msg}`);
+
+panier=[];
+afficherPanier();
+afficherCommandes();
+
+}, function(){
+alert("Active la localisation !");
+});
+}
+
+/* COMMANDES */
+function afficherCommandes(){
+let d = document.getElementById("listeCommandes");
+d.innerHTML="";
+
+commandes.forEach((c,i)=>{
+d.innerHTML += `
+<div class="panier-box">
+<p><b>${c.nom}</b> (${c.tel})</p>
+<p>${c.adresse}</p>
+<p><a href="${c.localisation}" target="_blank">📍 Voir position</a></p>
+<p>${c.panier.map(a=>a.nom+" x"+a.qte).join("<br>")}</p>
+<p>Total: ${c.total} FCFA</p>
+<button class="btn btn-danger" onclick="supprimerCommande(${i})">Supprimer</button>
+</div>`;
+});
+}
+
+function supprimerCommande(i){
+commandes.splice(i,1);
+localStorage.setItem("commandes",JSON.stringify(commandes));
+afficherCommandes();
+}
+
+window.onload=()=>{
+afficherProduits();
+if(isAdmin) afficherCommandes();
+};
+</script>
+
+</body>
+</html>
+
+
