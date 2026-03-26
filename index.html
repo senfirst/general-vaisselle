@@ -394,6 +394,29 @@ if(isAdmin) afficherCommandes();
 {nom:"Glassser ensemble", prix:15000, image:"W.jeg"},
 {nom:"Glassser ensemble", prix:15000, image:"X.jpeg"}
 ];
+  function afficherProduits(){
+let container = document.getElementById("produits");
+container.innerHTML = "";
+
+produits.forEach((p,i)=>{
+container.innerHTML += `
+<div class="produit">
+<img src="${p.image}" onerror="this.src='https://via.placeholder.com/300'">
+<div class="produit-info">
+<h4>${p.nom}</h4>
+<p class="prix">${p.prix} FCFA</p>
+
+<button class="btn" onclick="ajouterProduitPanier('${p.nom}',${p.prix})">
+🛒 Ajouter
+</button>
+
+${isAdmin ? `<button class="btn btn-danger" onclick="supprimerProduit(${i})">❌ Supprimer</button>` : ""}
+
+</div>
+</div>
+`;
+});
+}
 </script>
 
 </body>
