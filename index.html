@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GENERAL VAISELLE</title>
-  
+
 <style>
 body{
 margin:0;
@@ -13,6 +13,7 @@ background:#f5f1e6;
 color:#000;
 }
 
+/* HEADER */
 header{
 background:#000;
 color:#f5f1e6;
@@ -42,9 +43,35 @@ border-radius:5px;
 border:1px solid #ccc;
 }
 
-.section{
-padding:20px;
+/* SLIDER */
+.slider{
+width:100%;
+height:220px;
+overflow:hidden;
 }
+
+.slides{
+display:flex;
+width:400%;
+animation: slideAuto 12s infinite;
+}
+
+.slides img{
+width:100%;
+height:220px;
+object-fit:cover;
+}
+
+@keyframes slideAuto{
+0%{transform:translateX(0);}
+25%{transform:translateX(-100%);}
+50%{transform:translateX(-200%);}
+75%{transform:translateX(-300%);}
+100%{transform:translateX(0);}
+}
+
+/* SECTION */
+.section{padding:20px;}
 
 .grid{
 display:grid;
@@ -52,11 +79,29 @@ grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
 }
 
+/* ANIMATION PRODUITS */
+@keyframes slideHorizontal {
+0% { transform: translateX(100%); opacity: 0; }
+100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideVertical {
+0% { transform: translateY(-50px); opacity: 0; }
+100% { transform: translateY(0); opacity: 1; }
+}
+
 .produit{
 background:#fffaf0;
 border-radius:10px;
 overflow:hidden;
 box-shadow:0 2px 8px rgba(0,0,0,0.1);
+animation: slideHorizontal 0.8s ease forwards, slideVertical 0.8s ease forwards;
+opacity:0;
+}
+
+.produit:hover{
+transform:scale(1.05);
+transition:0.3s;
 }
 
 .produit img{
@@ -65,9 +110,7 @@ height:180px;
 object-fit:cover;
 }
 
-.produit-info{
-padding:10px;
-}
+.produit-info{padding:10px;}
 
 .prix{
 color:#8b6f47;
@@ -102,9 +145,6 @@ width:90%;
 border-radius:5px;
 border:1px solid #ccc;
 }
-  .p{
-    baground-color: red;
-  }
 
 </style>
 </head>
@@ -115,6 +155,16 @@ border:1px solid #ccc;
 <div class="logo">🛒 GENERAL VAISELLE <img src="logo.jpeg"></div>
 <input type="text" id="recherche" class="search-bar" placeholder="Rechercher..." onkeyup="rechercherProduit()">
 </header>
+
+<!-- SLIDER -->
+<div class="slider">
+<div class="slides">
+<img src="A.jpeg">
+<img src="B.jpeg">
+<img src="C.jpeg">
+<img src="H.jpeg">
+</div>
+</div>
 
 <!-- PRODUITS -->
 <section class="section">
@@ -141,7 +191,7 @@ border:1px solid #ccc;
 
 <script>
 
-/* PRODUITS */
+/* TES PRODUITS ORIGINAUX */
 let produits = [
 {nom:"Ensemble glasser", prix:9000, image:"A.jpeg"},
 {nom:"Mixeur 1", prix:12000, image:"B.jpeg"},
@@ -163,16 +213,16 @@ let produits = [
 ];
 
 let panier = [];
-let fraisLivraison = 500;
+let fraisLivraison = 1000;
 
-/* AFFICHAGE PRODUITS */
+/* AFFICHAGE */
 function afficherProduits(liste = produits){
 let c = document.getElementById("produits");
 c.innerHTML="";
 
-liste.forEach((p)=>{
+liste.forEach((p,index)=>{
 c.innerHTML += `
-<div class="produit">
+<div class="produit" style="animation-delay:${index * 0.2}s">
 <img src="${p.image}" onerror="this.src='https://via.placeholder.com/300'">
 <div class="produit-info">
 <h4>${p.nom}</h4>
@@ -201,6 +251,8 @@ let div = document.getElementById("panier");
 div.innerHTML="";
 let total=0;
 
+if(panier.length===0){div.innerHTML="Panier vide";}
+
 panier.forEach((p,i)=>{
 let st=p.prix*p.qte;
 total+=st;
@@ -220,7 +272,7 @@ function plus(i){panier[i].qte++; afficherPanier();}
 function moins(i){panier[i].qte>1?panier[i].qte--:panier.splice(i,1); afficherPanier();}
 function supprimer(i){panier.splice(i,1); afficherPanier();}
 
-/* COMMANDE WHATSAPP */
+/* WHATSAPP */
 function commander(){
 let nom=document.getElementById("clientNom").value;
 let tel=document.getElementById("clientTel").value;
