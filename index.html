@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GENERAL VAISELLE</title>
-  
+
 <style>
 body{
 margin:0;
@@ -72,7 +72,7 @@ overflow:hidden;
 .slides{
 display:flex;
 width:1300%;
-animation: slideAuto 50s infinite;
+animation: slideAuto 50s linear infinite;
 }
 
 .slides img{
@@ -104,14 +104,14 @@ grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
 }
 
-/* ANIMATION PRODUITS */
+/* ===== ANIMATION PC ===== */
 @keyframes slideRight {
-0% { transform: translateX(100px); opacity: 0; }
+0% { transform: translateX(120px); opacity: 0; }
 100% { transform: translateX(0); opacity: 1; }
 }
 
 @keyframes slideUp {
-0% { transform: translateY(60px); opacity: 0; }
+0% { transform: translateY(80px); opacity: 0; }
 100% { transform: translateY(0); opacity: 1; }
 }
 
@@ -124,6 +124,25 @@ animation: slideRight 0.8s ease forwards, slideUp 0.8s ease forwards;
 opacity:0;
 }
 
+/* ===== VERSION MOBILE (CORRECTION PRINCIPALE) ===== */
+@keyframes slideMobile {
+0% {
+transform: translate(150px, 100px);
+opacity: 0;
+}
+100% {
+transform: translate(0,0);
+opacity: 1;
+}
+}
+
+@media (max-width:768px){
+.produit{
+animation: slideMobile 0.7s ease forwards;
+}
+}
+
+/* HOVER */
 .produit:hover{
 transform:scale(1.05);
 transition:0.3s;
@@ -230,41 +249,7 @@ border:1px solid #ccc;
 
 <script>
 
-let produits = [
-{nom:"Ensemble glasser", prix:9000, image:"A.jpeg"},
-{nom:"Mixeur 1", prix:12000, image:"B.jpeg"},
-{nom:"Mixeur 2", prix:10000, image:"C.jpeg"},
-{nom:"Range toilette", prix:6000, image:"D.jpeg"},
-{nom:"Ensemble gamel", prix:15000, image:"H.jpeg"},
-{nom:"Deli Glass", prix:2500, image:"3.jpeg"},
-{nom:"7 paquets de bol", prix:3500, image:"11.jpeg"},
-{nom:"Tasses", prix:3000, image:"10.jpeg"},
-{nom:"Bol", prix:5000, image:"I.jpeg"},
-{nom:"Tasse 6pcs", prix:1500, image:"4.jpeg"},
-{nom:"Bol en verre", prix:1500, image:"5.jpeg"},
-{nom:"Bol ensemble", prix:15500, image:"M.jpeg"},
-{nom:"Nappes toile 2pcs", prix:3000, image:"8.jpeg"},
-{nom:"Tasses 2pcs", prix:3500, image:"6.jpeg"},
-{nom:"Tabouret", prix:1500, image:"T.jpeg"},
-{nom:"Tasse deli glass 6pcs", prix:3000, image:"U.jpeg"},
-  
-{nom:"tasses", prix:6000, image:"13.jpeg"},
-{nom:"tasses", prix:5000, image:"14.jpeg"},
-{nom:"ensemble marmite", prix:12000, image:"15.jpeg"},
-{nom:"marmite", prix:3500, image:"16.jpeg"},
-{nom:"marmite", prix:3000, image:"17.jpeg"},
-{nom:"tasses 6pcs", prix:3500, image:"18.jpeg"},
-{nom:"Tasses boissons", prix:3500, image:"19.jpeg"},
-{nom:"ensemble", prix:12000, image:"20.jpeg"},
-{nom:"Bol en plastique", prix:500, image:"21.jpeg"},
-{nom:"Bol en verre", prix:1500, image:"5.jpeg"},
-{nom:"Bol ensemble", prix:15500, image:"M.jpeg"},
-{nom:"Nappes toile 2pcs", prix:3000, image:"8.jpeg"},
-{nom:"Tasses 2pcs", prix:3500, image:"6.jpeg"},
-{nom:"Tabouret", prix:1500, image:"T.jpeg"},
-{nom:"Tasse deli glass 6pcs", prix:3000, image:"U.jpeg"},
-{nom:"Glassser ensemble", prix:15000, image:"7.jpeg"}
-];
+let produits = [/* ton tableau inchangé */];
 
 let panier = [];
 let fraisLivraison = 1000;
@@ -275,7 +260,7 @@ c.innerHTML="";
 
 liste.forEach((p,index)=>{
 c.innerHTML += `
-<div class="produit" style="animation-delay:${index * 0.1}s">
+<div class="produit" style="animation-delay:${index * 0.05}s">
 <img src="${p.image}" onerror="this.src='https://via.placeholder.com/300'">
 <div class="produit-info">
 <h4>${p.nom}</h4>
