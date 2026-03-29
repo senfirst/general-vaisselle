@@ -43,6 +43,25 @@ border-radius:5px;
 border:1px solid #ccc;
 }
 
+/* BANNIERE */
+.top-bar{
+background:#8b6f47;
+color:#fff;
+padding:10px;
+text-align:center;
+font-weight:bold;
+}
+
+.top-bar button{
+margin-left:10px;
+padding:5px 10px;
+border:none;
+background:#000;
+color:#fff;
+border-radius:5px;
+cursor:pointer;
+}
+
 /* SLIDER */
 .slider{
 width:100%;
@@ -52,8 +71,8 @@ overflow:hidden;
 
 .slides{
 display:flex;
-width:400%;
-animation: slideAuto 12s infinite;
+width:1300%;
+animation: slideAuto 50s infinite;
 }
 
 .slides img{
@@ -64,9 +83,15 @@ object-fit:cover;
 
 @keyframes slideAuto{
 0%{transform:translateX(0);}
-25%{transform:translateX(-100%);}
-50%{transform:translateX(-200%);}
-75%{transform:translateX(-300%);}
+10%{transform:translateX(-100%);}
+20%{transform:translateX(-200%);}
+30%{transform:translateX(-300%);}
+40%{transform:translateX(-400%);}
+50%{transform:translateX(-500%);}
+60%{transform:translateX(-600%);}
+70%{transform:translateX(-700%);}
+80%{transform:translateX(-800%);}
+90%{transform:translateX(-900%);}
 100%{transform:translateX(0);}
 }
 
@@ -80,13 +105,13 @@ gap:20px;
 }
 
 /* ANIMATION PRODUITS */
-@keyframes slideHorizontal {
-0% { transform: translateX(100%); opacity: 0; }
+@keyframes slideRight {
+0% { transform: translateX(100px); opacity: 0; }
 100% { transform: translateX(0); opacity: 1; }
 }
 
-@keyframes slideVertical {
-0% { transform: translateY(-50px); opacity: 0; }
+@keyframes slideUp {
+0% { transform: translateY(60px); opacity: 0; }
 100% { transform: translateY(0); opacity: 1; }
 }
 
@@ -95,7 +120,7 @@ background:#fffaf0;
 border-radius:10px;
 overflow:hidden;
 box-shadow:0 2px 8px rgba(0,0,0,0.1);
-animation: slideHorizontal 0.8s ease forwards, slideVertical 0.8s ease forwards;
+animation: slideRight 0.8s ease forwards, slideUp 0.8s ease forwards;
 opacity:0;
 }
 
@@ -145,16 +170,17 @@ width:90%;
 border-radius:5px;
 border:1px solid #ccc;
 }
-
 </style>
 </head>
 
 <body>
+
 <!-- BANNIERE -->
 <div class="top-bar">
 🛒 Vous avez des articles dans votre panier ?
 <button onclick="scrollToCommande()">Commander maintenant</button>
 </div>
+
 <header>
 <div class="logo">🛒 GENERAL VAISELLE <img src="logo.jpeg"></div>
 <input type="text" id="recherche" class="search-bar" placeholder="Rechercher..." onkeyup="rechercherProduit()">
@@ -168,10 +194,10 @@ border:1px solid #ccc;
 <img src="C.jpeg">
 <img src="D.jpeg">
 <img src="3.jpeg">
-<img src="4.jpeg>
- <img src="6.jpeg">
-<img src="7.jpeg>
-  <img src="A.jpeg">
+<img src="4.jpeg">
+<img src="6.jpeg">
+<img src="7.jpeg">
+<img src="A.jpeg">
 <img src="8.jpeg">
 <img src="H.jpeg">
 <img src="K.jpeg">
@@ -186,7 +212,7 @@ border:1px solid #ccc;
 </section>
 
 <!-- PANIER -->
-<section class="section">
+<section class="section" id="commande">
 <h2>🛒 Panier</h2>
 <div id="panier" class="panier-box">Panier vide</div>
 <p><strong>Total: <span id="totalPrix">0</span> FCFA</strong></p>
@@ -204,7 +230,6 @@ border:1px solid #ccc;
 
 <script>
 
-/* TES PRODUITS ORIGINAUX */
 let produits = [
 {nom:"Ensemble glasser", prix:9000, image:"A.jpeg"},
 {nom:"Mixeur 1", prix:12000, image:"B.jpeg"},
@@ -228,14 +253,13 @@ let produits = [
 let panier = [];
 let fraisLivraison = 1000;
 
-/* AFFICHAGE */
 function afficherProduits(liste = produits){
 let c = document.getElementById("produits");
 c.innerHTML="";
 
 liste.forEach((p,index)=>{
 c.innerHTML += `
-<div class="produit" style="animation-delay:${index * 0.2}s">
+<div class="produit" style="animation-delay:${index * 0.1}s">
 <img src="${p.image}" onerror="this.src='https://via.placeholder.com/300'">
 <div class="produit-info">
 <h4>${p.nom}</h4>
@@ -246,13 +270,11 @@ c.innerHTML += `
 });
 }
 
-/* RECHERCHE */
 function rechercherProduit(){
 let val = document.getElementById("recherche").value.toLowerCase();
 afficherProduits(produits.filter(p=>p.nom.toLowerCase().includes(val)));
 }
 
-/* PANIER */
 function ajouterProduitPanier(nom, prix){
 let exist = panier.find(p => p.nom === nom);
 if(exist){exist.qte++;} else {panier.push({nom, prix, qte:1});}
@@ -285,7 +307,6 @@ function plus(i){panier[i].qte++; afficherPanier();}
 function moins(i){panier[i].qte>1?panier[i].qte--:panier.splice(i,1); afficherPanier();}
 function supprimer(i){panier.splice(i,1); afficherPanier();}
 
-/* WHATSAPP */
 function commander(){
 let nom=document.getElementById("clientNom").value;
 let tel=document.getElementById("clientTel").value;
@@ -314,7 +335,10 @@ panier=[];
 afficherPanier();
 }
 
-/* INIT */
+function scrollToCommande(){
+document.getElementById("commande").scrollIntoView({behavior:"smooth"});
+}
+
 window.onload=()=>{
 afficherProduits();
 };
