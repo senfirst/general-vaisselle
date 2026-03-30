@@ -1,8 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>GENERAL VAISELLE</title>
 
 <style>
@@ -17,39 +19,38 @@ background:#f5f5f5;
 
 header{
 background:white;
-padding:10px;
+padding:12px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-box-shadow:0 2px 5px rgba(0,0,0,0.1);
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
 
 .logo{
 font-size:22px;
 font-weight:bold;
-color:#f68b1e;
+color:#ff7a00;
 cursor:pointer;
 }
 
-.search-bar{
+.search{
 width:40%;
 padding:10px;
-border-radius:5px;
+border-radius:6px;
 border:1px solid #ccc;
 }
 
 /* MENU */
 
 .menu{
-background:#f68b1e;
+background:#ff7a00;
 padding:10px;
 text-align:center;
 }
 
 .menu a{
 color:white;
-margin:0 15px;
-text-decoration:none;
+margin:0 12px;
 font-weight:bold;
 cursor:pointer;
 }
@@ -60,10 +61,12 @@ cursor:pointer;
 display:flex;
 }
 
+/* CATEGORIES */
+
 .categories{
 width:220px;
 background:white;
-padding:15px;
+padding:10px;
 }
 
 .categories ul{
@@ -74,13 +77,18 @@ padding:0;
 .categories li{
 padding:10px;
 cursor:pointer;
+border-bottom:1px solid #eee;
+}
+
+.categories li:hover{
+background:#f5f5f5;
 }
 
 /* CONTENT */
 
 .content{
 flex:1;
-padding:15px;
+padding:20px;
 }
 
 /* GRID */
@@ -88,66 +96,80 @@ padding:15px;
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:15px;
+gap:18px;
 }
 
 /* PRODUIT */
 
-.produit{
+.card{
 background:white;
 border-radius:10px;
 overflow:hidden;
-box-shadow:0 2px 6px rgba(0,0,0,0.1);
+box-shadow:0 3px 10px rgba(0,0,0,0.1);
+transition:0.3s;
 }
 
-.produit img{
+.card:hover{
+transform:scale(1.03);
+}
+
+.card img{
 width:100%;
-height:180px;
+height:170px;
 object-fit:cover;
+cursor:pointer;
 }
 
-.produit-info{
-padding:10px;
+.info{
+padding:12px;
 }
 
-.prix{
-color:#f68b1e;
+.price{
+color:#ff7a00;
 font-weight:bold;
 }
 
-/* BUTTON */
-
 .btn{
-background:#f68b1e;
+background:#ff7a00;
 color:white;
-padding:10px;
 border:none;
+padding:10px;
 width:100%;
-border-radius:5px;
+border-radius:6px;
 cursor:pointer;
 }
 
 /* PANIER */
 
-.panier-float{
+.cart{
 position:fixed;
-right:15px;
-bottom:15px;
-background:#f68b1e;
+bottom:20px;
+right:20px;
+background:#ff7a00;
 color:white;
 padding:15px;
 border-radius:50px;
 cursor:pointer;
 }
 
-.panier-box{
+.cart span{
+background:white;
+color:#ff7a00;
+padding:4px 8px;
+border-radius:50%;
+margin-left:5px;
+}
+
+/* PANIER BOX */
+
+.cartbox{
 background:white;
 padding:15px;
 border-radius:10px;
 margin-top:20px;
 }
 
-/* MODAL */
+/* MODAL IMAGE */
 
 .modal{
 display:none;
@@ -165,39 +187,9 @@ align-items:center;
 max-width:90%;
 }
 
-/* FOOTER */
-
-footer{
-background:black;
-color:white;
-text-align:center;
-padding:20px;
-margin-top:40px;
-}
-
 /* MOBILE */
 
-@media (max-width:768px){
-
-header{
-flex-direction:column;
-gap:10px;
-}
-
-.search-bar{
-width:90%;
-}
-
-.menu{
-display:flex;
-overflow-x:auto;
-}
-
-.menu a{
-flex:0 0 auto;
-margin:0 10px;
-font-size:14px;
-}
+@media(max-width:768px){
 
 .layout{
 flex-direction:column;
@@ -207,41 +199,23 @@ flex-direction:column;
 width:100%;
 }
 
-.categories ul{
-display:flex;
-overflow-x:auto;
-}
-
-.categories li{
-flex:0 0 auto;
-background:white;
-margin-right:10px;
-padding:8px;
-border-radius:5px;
+.search{
+width:90%;
 }
 
 .grid{
 grid-template-columns:repeat(2,1fr);
-gap:10px;
-}
-
-.produit img{
-height:130px;
-}
-
-.panier-float{
-padding:12px;
-font-size:18px;
 }
 
 }
 
 </style>
+
 </head>
 
 <body>
 
-<div class="panier-float" onclick="scrollToCommande()">
+<div class="cart" onclick="scrollPanier()">
 🛒 <span id="count">0</span>
 </div>
 
@@ -249,61 +223,67 @@ font-size:18px;
 
 <div class="logo" onclick="filtrer('all')">GENERAL VAISELLE</div>
 
-<input type="text" id="recherche" class="search-bar"
-placeholder="Rechercher..." onkeyup="rechercherProduit()">
+<input class="search" id="search" placeholder="Rechercher produit..." onkeyup="searchProduit()">
 
 </header>
 
-<nav class="menu">
+<div class="menu">
+
 <a onclick="filtrer('all')">Accueil</a>
-<a onclick="filtrer('cuisine')">Cuisine</a>
 <a onclick="filtrer('vaisselle')">Vaisselle</a>
+<a onclick="filtrer('bols')">Bols</a>
 <a onclick="filtrer('tasses')">Tasses</a>
-</nav>
+
+</div>
 
 <div class="layout">
 
 <aside class="categories">
+
 <ul>
 <li onclick="filtrer('all')">Tous</li>
 <li onclick="filtrer('vaisselle')">Vaisselle</li>
 <li onclick="filtrer('bols')">Bols</li>
 <li onclick="filtrer('tasses')">Tasses</li>
-<li onclick="filtrer('cuisine')">Cuisine</li>
 </ul>
+
 </aside>
 
 <div class="content">
 
 <h2>Produits</h2>
 
-<div class="grid" id="produits"></div>
+<div class="grid" id="products"></div>
 
-<section id="commande">
+<section id="panierSection">
 
 <h2>Panier</h2>
-<div id="panier" class="panier-box">Panier vide</div>
 
-<p>Total : <span id="totalPrix">0</span> FCFA</p>
+<div id="panier" class="cartbox">Panier vide</div>
+
+<p><b>Total : <span id="total">0</span> FCFA</b></p>
+
+<h3>Livraison</h3>
+
+<input id="nom" placeholder="Nom"><br>
+<input id="tel" placeholder="Téléphone"><br>
+<input id="adresse" placeholder="Adresse"><br>
+
+<button class="btn" onclick="commander()">Commander WhatsApp</button>
 
 </section>
 
 </div>
+
 </div>
 
-<footer>
-<p>© 2026 GENERAL VAISELLE</p>
-</footer>
-
-<div class="modal" id="modal" onclick="fermerZoom()">
-<img id="zoomImg">
+<div class="modal" id="modal" onclick="closeZoom()">
+<img id="zoom">
 </div>
 
 <script>
 
-/* PRODUITS */
-
-let produits = [
+let produits=[
 {nom:"Ensemble glasser", prix:9000, image:"A.jpeg"}, 
  {nom:"Mixeur 1", prix:12000, image:"B.jpeg"},
  {nom:"Mixeur 2", prix:10000, image:"C.jpeg"},
@@ -336,104 +316,157 @@ let produits = [
  {nom:"Tabouret", prix:1500, image:"T.jpeg"},
  {nom:"Tasse deli glass 6pcs", prix:3000, image:"U.jpeg"},
  {nom:"Glassser ensemble", prix:15000, image:"7.jpeg"}
-];
+]
 
-/* PANIER */
-
-let panier=[];
-
-/* AFFICHER */
+let panier=[]
 
 function afficherProduits(liste=produits){
 
-let c=document.getElementById("produits");
-c.innerHTML="";
+let c=document.getElementById("products")
+
+c.innerHTML=""
 
 liste.forEach(p=>{
+
 c.innerHTML+=`
-<div class="produit">
+
+<div class="card">
+
 <img src="${p.image}" onclick="zoom('${p.image}')">
-<div class="produit-info">
+
+<div class="info">
+
 <h4>${p.nom}</h4>
-<p class="prix">${p.prix} FCFA</p>
-<button class="btn" onclick="ajouterProduitPanier('${p.nom}',${p.prix})">
+
+<p class="price">${p.prix} FCFA</p>
+
+<button class="btn" onclick="add('${p.nom}',${p.prix})">
 Ajouter
 </button>
+
 </div>
-</div>`;
-});
+
+</div>
+
+`
+
+})
 
 }
-
-/* FILTRE */
 
 function filtrer(cat){
-if(cat==="all"){afficherProduits(produits);return;}
-afficherProduits(produits.filter(p=>p.cat===cat));
+
+if(cat==="all"){afficherProduits();return}
+
+afficherProduits(produits.filter(p=>p.cat===cat))
+
 }
 
-/* RECHERCHE */
+function searchProduit(){
 
-function rechercherProduit(){
-let val=document.getElementById("recherche").value.toLowerCase();
-afficherProduits(produits.filter(p=>p.nom.toLowerCase().includes(val)));
+let v=document.getElementById("search").value.toLowerCase()
+
+afficherProduits(produits.filter(p=>p.nom.toLowerCase().includes(v)))
+
 }
 
-/* PANIER */
+function add(nom,prix){
 
-function ajouterProduitPanier(nom,prix){
-let exist=panier.find(p=>p.nom===nom);
-if(exist){exist.qte++}
+let e=panier.find(p=>p.nom===nom)
+
+if(e){e.qte++}
 else{panier.push({nom,prix,qte:1})}
-afficherPanier();
+
+showPanier()
+
 }
 
-function afficherPanier(){
-let div=document.getElementById("panier");
-div.innerHTML="";
-let total=0;
+function showPanier(){
 
-if(panier.length===0){div.innerHTML="Panier vide"}
+let div=document.getElementById("panier")
+
+div.innerHTML=""
+
+let total=0
+
+if(panier.length==0){div.innerHTML="Panier vide"}
 
 panier.forEach((p,i)=>{
-let st=p.prix*p.qte;
-total+=st;
+
+let st=p.prix*p.qte
+
+total+=st
 
 div.innerHTML+=`
-<p>${p.nom} x${p.qte} = ${st}
-<button onclick="moins(${i})">-</button>
+<p>
+${p.nom} x${p.qte} = ${st}
 <button onclick="plus(${i})">+</button>
-</p>`;
-});
+<button onclick="moins(${i})">-</button>
+</p>
+`
 
-document.getElementById("totalPrix").innerText=total;
+})
+
+document.getElementById("total").innerText=total
+
 document.getElementById("count").innerText=
-panier.reduce((s,p)=>s+p.qte,0);
+panier.reduce((s,p)=>s+p.qte,0)
+
 }
 
-function plus(i){panier[i].qte++;afficherPanier()}
-function moins(i){panier[i].qte--;if(panier[i].qte<=0)panier.splice(i,1);afficherPanier()}
-
-/* ZOOM */
+function plus(i){panier[i].qte++;showPanier()}
+function moins(i){panier[i].qte--;if(panier[i].qte<=0)panier.splice(i,1);showPanier()}
 
 function zoom(src){
-document.getElementById("modal").style.display="flex";
-document.getElementById("zoomImg").src=src;
+
+document.getElementById("modal").style.display="flex"
+document.getElementById("zoom").src=src
+
 }
 
-function fermerZoom(){
-document.getElementById("modal").style.display="none";
+function closeZoom(){
+
+document.getElementById("modal").style.display="none"
+
 }
 
-/* SCROLL */
+function scrollPanier(){
 
-function scrollToCommande(){
-document.getElementById("commande").scrollIntoView({behavior:"smooth"});
+document.getElementById("panierSection")
+.scrollIntoView({behavior:"smooth"})
+
 }
 
-/* INIT */
+function commander(){
 
-window.onload=()=>{afficherProduits();}
+let nom=document.getElementById("nom").value
+let tel=document.getElementById("tel").value
+let adr=document.getElementById("adresse").value
+
+if(panier.length==0){alert("Panier vide");return}
+
+let total=panier.reduce((s,p)=>s+p.prix*p.qte,0)
+
+let msg=encodeURIComponent(
+
+`Commande GENERAL VAISELLE
+
+Nom:${nom}
+Tel:${tel}
+Adresse:${adr}
+
+Articles
+${panier.map(p=>p.nom+" x"+p.qte).join("\n")}
+
+Total:${total} FCFA`
+
+)
+
+window.open(`https://wa.me/221784314946?text=${msg}`)
+
+}
+
+window.onload=()=>afficherProduits()
 
 </script>
 
