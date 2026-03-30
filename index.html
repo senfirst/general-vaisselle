@@ -29,6 +29,7 @@ box-shadow:0 2px 5px rgba(0,0,0,0.1);
 font-size:22px;
 font-weight:bold;
 color:#f68b1e;
+cursor:pointer;
 }
 
 .search-bar{
@@ -51,6 +52,7 @@ color:white;
 margin:0 15px;
 text-decoration:none;
 font-weight:bold;
+cursor:pointer;
 }
 
 /* LAYOUT */
@@ -303,7 +305,7 @@ width:60%;
 
 <header>
 
-<div class="logo">GENERAL VAISELLE</div>
+<div class="logo" onclick="filtrer('all')">GENERAL VAISELLE</div>
 
 <input type="text" id="recherche" class="search-bar" placeholder="Rechercher produit..." onkeyup="rechercherProduit()">
 
@@ -311,10 +313,10 @@ width:60%;
 
 <nav class="menu">
 
-<a href="#">Accueil</a>
-<a href="#">Cuisine</a>
-<a href="#">Vaisselle</a>
-<a href="#">Promo</a>
+<a onclick="filtrer('all')">Accueil</a>
+<a onclick="filtrer('cuisine')">Cuisine</a>
+<a onclick="filtrer('vaisselle')">Vaisselle</a>
+<a onclick="filtrer('tasses')">Tasses</a>
 
 </nav>
 
@@ -325,12 +327,14 @@ width:60%;
 <h3>Catégories</h3>
 
 <ul>
-<li>🍽 Vaisselle</li>
-<li>🥣 Bols</li>
-<li>☕ Tasses</li>
-<li>🍳 Marmites</li>
-<li>🪑 Tabourets</li>
-<li>🔥 Promotions</li>
+
+<li onclick="filtrer('all')">🏠 Tous les produits</li>
+<li onclick="filtrer('vaisselle')">🍽 Vaisselle</li>
+<li onclick="filtrer('bols')">🥣 Bols</li>
+<li onclick="filtrer('tasses')">☕ Tasses</li>
+<li onclick="filtrer('cuisine')">🍳 Cuisine</li>
+<li onclick="filtrer('maison')">🏠 Maison</li>
+
 </ul>
 
 </aside>
@@ -388,7 +392,6 @@ width:60%;
 <footer>
 
 <p>© 2026 GENERAL VAISELLE</p>
-
 <p>Livraison rapide partout à Dakar</p>
 
 </footer>
@@ -401,14 +404,14 @@ width:60%;
 
 let produits=[
 
-{nom:"Ensemble glasser",prix:9000,image:"A.jpeg"},
-{nom:"Mixeur",prix:12000,image:"B.jpeg"},
-{nom:"Range toilette",prix:6000,image:"C.jpeg"},
-{nom:"Deli glass",prix:2500,image:"3.jpeg"},
-{nom:"Tasses",prix:3000,image:"4.jpeg"},
-{nom:"Bol",prix:5000,image:"6.jpeg"},
-{nom:"Nappes",prix:3000,image:"7.jpeg"},
-{nom:"Tabouret",prix:1500,image:"8.jpeg"}
+{nom:"Ensemble glasser",prix:9000,image:"A.jpeg",cat:"vaisselle"},
+{nom:"Mixeur",prix:12000,image:"B.jpeg",cat:"cuisine"},
+{nom:"Range toilette",prix:6000,image:"C.jpeg",cat:"maison"},
+{nom:"Deli glass",prix:2500,image:"3.jpeg",cat:"tasses"},
+{nom:"Tasses",prix:3000,image:"4.jpeg",cat:"tasses"},
+{nom:"Bol",prix:5000,image:"6.jpeg",cat:"bols"},
+{nom:"Nappes",prix:3000,image:"7.jpeg",cat:"maison"},
+{nom:"Tabouret",prix:1500,image:"8.jpeg",cat:"maison"}
 
 ];
 
@@ -418,7 +421,6 @@ let fraisLivraison=1000;
 function afficherProduits(liste=produits){
 
 let c=document.getElementById("produits");
-
 c.innerHTML="";
 
 liste.forEach(p=>{
@@ -453,11 +455,25 @@ Ajouter au panier
 
 }
 
+function filtrer(cat){
+
+if(cat==="all"){
+afficherProduits(produits);
+return;
+}
+
+let liste=produits.filter(p=>p.cat===cat);
+afficherProduits(liste);
+
+}
+
 function rechercherProduit(){
 
 let val=document.getElementById("recherche").value.toLowerCase();
 
-afficherProduits(produits.filter(p=>p.nom.toLowerCase().includes(val)));
+afficherProduits(
+produits.filter(p=>p.nom.toLowerCase().includes(val))
+);
 
 }
 
@@ -475,7 +491,6 @@ afficherPanier();
 function afficherPanier(){
 
 let div=document.getElementById("panier");
-
 div.innerHTML="";
 
 let total=0;
@@ -485,12 +500,12 @@ if(panier.length===0){div.innerHTML="Panier vide"}
 panier.forEach((p,i)=>{
 
 let st=p.prix*p.qte;
-
 total+=st;
 
 div.innerHTML+=`
 
-<p>${p.nom} x${p.qte} = ${st} FCFA
+<p>
+${p.nom} x${p.qte} = ${st} FCFA
 <button onclick="moins(${i})">➖</button>
 <button onclick="plus(${i})">➕</button>
 <button onclick="supprimer(${i})">❌</button>
@@ -502,7 +517,8 @@ div.innerHTML+=`
 
 document.getElementById("totalPrix").innerText=total;
 
-document.getElementById("count").innerText=panier.reduce((s,p)=>s+p.qte,0);
+document.getElementById("count").innerText=
+panier.reduce((s,p)=>s+p.qte,0);
 
 }
 
@@ -511,22 +527,16 @@ function moins(i){panier[i].qte>1?panier[i].qte--:panier.splice(i,1);afficherPan
 function supprimer(i){panier.splice(i,1);afficherPanier()}
 
 function zoom(src){
-
 document.getElementById("modal").style.display="flex";
 document.getElementById("zoomImg").src=src;
-
 }
 
 function fermerZoom(){
-
 document.getElementById("modal").style.display="none";
-
 }
 
 function scrollToCommande(){
-
 document.getElementById("commande").scrollIntoView({behavior:"smooth"});
-
 }
 
 function commander(){
@@ -563,9 +573,7 @@ afficherPanier();
 }
 
 window.onload=()=>{
-
 afficherProduits();
-
 }
 
 </script>
