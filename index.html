@@ -6,63 +6,54 @@
 <title>GENERAL VAISELLE</title>
 
 <style>
+
 body{
 margin:0;
 font-family:Arial;
-background:#f5f1e6;
-color:#000;
+background:#f5f5f5;
 }
 
 /* HEADER */
+
 header{
-background:#000;
-color:#f5f1e6;
-padding:15px;
+background:#fff;
+padding:10px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
 
 .logo{
 font-weight:bold;
 font-size:22px;
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-.logo img{
-height:40px;
-border-radius:6px;
+color:#f68b1e;
 }
 
 .search-bar{
-width:50%;
+width:40%;
 padding:10px;
 border-radius:5px;
 border:1px solid #ccc;
 }
 
-/* BANNIERE */
-.top-bar{
-background:#8b6f47;
-color:#fff;
+/* MENU */
+
+.menu{
+background:#f68b1e;
 padding:10px;
 text-align:center;
+}
+
+.menu a{
+color:white;
+margin:0 15px;
+text-decoration:none;
 font-weight:bold;
 }
 
-.top-bar button{
-margin-left:10px;
-padding:5px 10px;
-border:none;
-background:#000;
-color:#fff;
-border-radius:5px;
-cursor:pointer;
-}
-
 /* SLIDER */
+
 .slider{
 width:100%;
 height:220px;
@@ -96,7 +87,10 @@ object-fit:cover;
 }
 
 /* SECTION */
-.section{padding:20px;}
+
+.section{
+padding:20px;
+}
 
 .grid{
 display:grid;
@@ -104,41 +98,19 @@ grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
 }
 
-/* ANIMATION PC */
-@keyframes slideRight {
-0% { transform: translateX(120px); opacity: 0; }
-100% { transform: translateX(0); opacity: 1; }
-}
-
-@keyframes slideUp {
-0% { transform: translateY(80px); opacity: 0; }
-100% { transform: translateY(0); opacity: 1; }
-}
+/* PRODUITS */
 
 .produit{
-background:#fffaf0;
-border-radius:10px;
+background:#fff;
+border-radius:8px;
 overflow:hidden;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
-animation: slideRight 0.8s ease forwards, slideUp 0.8s ease forwards;
-opacity:0;
-}
-
-/* MOBILE */
-@keyframes slideMobile {
-0% { transform: translate(150px, 100px); opacity: 0; }
-100% { transform: translate(0,0); opacity: 1; }
-}
-
-@media (max-width:768px){
-.produit{
-animation: slideMobile 0.7s ease forwards;
-}
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+transition:0.3s;
+position:relative;
 }
 
 .produit:hover{
-transform:scale(1.05);
-transition:0.3s;
+transform:scale(1.03);
 }
 
 .produit img{
@@ -147,29 +119,46 @@ height:180px;
 object-fit:cover;
 }
 
-.produit-info{padding:10px;}
+.produit-info{
+padding:10px;
+}
 
 .prix{
-color:#8b6f47;
+color:#f68b1e;
 font-weight:bold;
+font-size:18px;
+}
+
+.promo{
+position:absolute;
+background:red;
+color:white;
+padding:3px 6px;
+font-size:12px;
+top:5px;
+left:5px;
+border-radius:4px;
 }
 
 .btn{
-background:#000;
-color:#f5f1e6;
-padding:8px;
+background:#f68b1e;
+color:white;
+padding:10px;
 border:none;
 width:100%;
-cursor:pointer;
 border-radius:5px;
 font-weight:bold;
-margin-top:5px;
+cursor:pointer;
 }
 
-.btn:hover{background:#333;}
+.btn:hover{
+background:#d97706;
+}
+
+/* PANIER */
 
 .panier-box{
-background:#fffaf0;
+background:white;
 padding:15px;
 border-radius:10px;
 margin-bottom:10px;
@@ -182,27 +171,40 @@ width:90%;
 border-radius:5px;
 border:1px solid #ccc;
 }
+
+/* FOOTER */
+
+footer{
+background:#000;
+color:white;
+text-align:center;
+padding:20px;
+margin-top:40px;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="top-bar">
-🛒 Vous avez des articles dans votre panier ?
-<button onclick="scrollToCommande()">Commander maintenant</button>
-</div>
-
-<!-- PANIER FLOTTANT -->
-<div class="panier-float" onclick="scrollToCommande()">
-🛒 <span id="count">0</span>
-</div>
 <header>
-<div class="logo">🛒 GENERAL VAISELLE <img src="logo.jpeg"></div>
-<input type="text" id="recherche" class="search-bar" placeholder="Rechercher..." onkeyup="rechercherProduit()">
+<div class="logo">GENERAL VAISELLE</div>
+
+<input type="text" id="recherche" class="search-bar" placeholder="Rechercher produit..." onkeyup="rechercherProduit()">
+
 </header>
+
+<nav class="menu">
+<a href="#">Accueil</a>
+<a href="#">Cuisine</a>
+<a href="#">Vaisselle</a>
+<a href="#">Promo</a>
+<a href="#">Contact</a>
+</nav>
 
 <div class="slider">
 <div class="slides">
+
 <img src="A.jpeg">
 <img src="B.jpeg">
 <img src="C.jpeg">
@@ -216,32 +218,56 @@ border:1px solid #ccc;
 <img src="H.jpeg">
 <img src="K.jpeg">
 <img src="L.jpeg">
+
 </div>
 </div>
 
 <section class="section">
+
 <h2>Produits</h2>
+
 <div class="grid" id="produits"></div>
+
 </section>
 
 <section class="section" id="commande">
+
 <h2>🛒 Panier</h2>
+
 <div id="panier" class="panier-box">Panier vide</div>
+
 <p><strong>Total: <span id="totalPrix">0</span> FCFA</strong></p>
+
 </section>
 
 <section class="section">
+
 <h2>📦 Livraison</h2>
+
 <input type="text" id="clientNom" placeholder="Nom complet">
+
 <input type="text" id="clientTel" placeholder="Téléphone">
+
 <input type="text" id="clientAdresse" placeholder="Adresse">
+
 <button class="btn" onclick="commander()">Commander</button>
+
 <p>Livraison : 1000 FCFA partout à Dakar</p>
+
 </section>
+
+<footer>
+
+<p>© 2026 GENERAL VAISELLE</p>
+
+<p>Livraison rapide partout à Dakar</p>
+
+</footer>
 
 <script>
 
 let produits = [
+
 {nom:"Ensemble glasser", prix:9000, image:"A.jpeg"},
 {nom:"Mixeur 1", prix:12000, image:"B.jpeg"},
 {nom:"Mixeur 2", prix:10000, image:"C.jpeg"},
@@ -258,117 +284,200 @@ let produits = [
 {nom:"Tasses 2pcs", prix:3500, image:"6.jpeg"},
 {nom:"Tabouret", prix:1500, image:"T.jpeg"},
 {nom:"Tasse deli glass 6pcs", prix:3000, image:"U.jpeg"},
-
-{nom:"tasses", prix:6000, image:"13.jpeg"},
-{nom:"tasses", prix:5000, image:"14.jpeg"},
-{nom:"ensemble marmite", prix:12000, image:"15.jpeg"},
-{nom:"marmite", prix:3500, image:"16.jpeg"},
-{nom:"marmite", prix:3000, image:"17.jpeg"},
-{nom:"tasses 6pcs", prix:3500, image:"18.jpeg"},
-{nom:"Tasses boissons", prix:3500, image:"19.jpeg"},
-{nom:"ensemble", prix:12000, image:"20.jpeg"},
-{nom:"Bol en plastique", prix:500, image:"21.jpeg"},
-{nom:"Bol en verre", prix:1500, image:"5.jpeg"},
-{nom:"Bol ensemble", prix:15500, image:"M.jpeg"},
-{nom:"Nappes toile 2pcs", prix:3000, image:"8.jpeg"},
-{nom:"Tasses 2pcs", prix:3500, image:"6.jpeg"},
-{nom:"Tabouret", prix:1500, image:"T.jpeg"},
-{nom:"Tasse deli glass 6pcs", prix:3000, image:"U.jpeg"},
 {nom:"Glassser ensemble", prix:15000, image:"7.jpeg"}
+
 ];
 
-let panier = [];
-let fraisLivraison = 1000;
+let panier=[];
+let fraisLivraison=1000;
 
-function afficherProduits(liste = produits){
-let c = document.getElementById("produits");
+function afficherProduits(liste=produits){
+
+let c=document.getElementById("produits");
+
 c.innerHTML="";
 
-liste.forEach((p,index)=>{
-c.innerHTML += `
-<div class="produit" style="animation-delay:${index * 0.05}s">
+liste.forEach(p=>{
+
+c.innerHTML+=`
+
+<div class="produit">
+
+<span class="promo">PROMO</span>
+
 <img src="${p.image}" onerror="this.src='https://via.placeholder.com/300'">
+
 <div class="produit-info">
+
 <h4>${p.nom}</h4>
+
 <p class="prix">${p.prix} FCFA</p>
-<button class="btn" onclick="ajouterProduitPanier('${p.nom}',${p.prix})">🛒 Ajouter</button>
+
+<button class="btn" onclick="ajouterProduitPanier('${p.nom}',${p.prix})">
+
+Ajouter au panier
+
+</button>
+
 </div>
-</div>`;
+
+</div>
+
+`;
+
 });
+
 }
 
 function rechercherProduit(){
-let val = document.getElementById("recherche").value.toLowerCase();
+
+let val=document.getElementById("recherche").value.toLowerCase();
+
 afficherProduits(produits.filter(p=>p.nom.toLowerCase().includes(val)));
+
 }
 
-function ajouterProduitPanier(nom, prix){
-let exist = panier.find(p => p.nom === nom);
-if(exist){exist.qte++;} else {panier.push({nom, prix, qte:1});}
+function ajouterProduitPanier(nom,prix){
+
+let exist=panier.find(p=>p.nom===nom);
+
+if(exist){
+
+exist.qte++;
+
+}else{
+
+panier.push({nom,prix,qte:1});
+
+}
+
 afficherPanier();
+
 }
 
 function afficherPanier(){
-let div = document.getElementById("panier");
+
+let div=document.getElementById("panier");
+
 div.innerHTML="";
+
 let total=0;
 
-if(panier.length===0){div.innerHTML="Panier vide";}
+if(panier.length===0){
+
+div.innerHTML="Panier vide";
+
+}
 
 panier.forEach((p,i)=>{
+
 let st=p.prix*p.qte;
+
 total+=st;
 
-div.innerHTML += `
-<p>${p.nom} x${p.qte} = ${st} FCFA
+div.innerHTML+=`
+
+<p>
+
+${p.nom} x${p.qte} = ${st} FCFA
+
 <button onclick="moins(${i})">➖</button>
+
 <button onclick="plus(${i})">➕</button>
+
 <button onclick="supprimer(${i})">❌</button>
-</p>`;
+
+</p>
+
+`;
+
 });
 
 document.getElementById("totalPrix").innerText=total;
+
 }
 
-function plus(i){panier[i].qte++; afficherPanier();}
-function moins(i){panier[i].qte>1?panier[i].qte--:panier.splice(i,1); afficherPanier();}
-function supprimer(i){panier.splice(i,1); afficherPanier();}
+function plus(i){
+
+panier[i].qte++;
+
+afficherPanier();
+
+}
+
+function moins(i){
+
+panier[i].qte>1?panier[i].qte--:panier.splice(i,1);
+
+afficherPanier();
+
+}
+
+function supprimer(i){
+
+panier.splice(i,1);
+
+afficherPanier();
+
+}
 
 function commander(){
+
 let nom=document.getElementById("clientNom").value;
+
 let tel=document.getElementById("clientTel").value;
+
 let adresse=document.getElementById("clientAdresse").value;
 
-if(panier.length===0){alert("Panier vide");return;}
-if(!nom||!tel||!adresse){alert("Remplir infos");return;}
+if(panier.length===0){
+
+alert("Panier vide");
+
+return;
+
+}
+
+if(!nom||!tel||!adresse){
+
+alert("Remplir les informations");
+
+return;
+
+}
 
 let total=panier.reduce((s,p)=>s+p.prix*p.qte,0)+fraisLivraison;
 
 let msg=encodeURIComponent(
-`🛒 Commande GENERAL VAISELLE
+
+`Commande GENERAL VAISELLE
+
 Nom:${nom}
+
 Tel:${tel}
+
 Adresse:${adresse}
 
 Articles:
+
 ${panier.map(p=>p.nom+" x"+p.qte).join("\n")}
 
 Total:${total} FCFA`
+
 );
 
 window.open(`https://wa.me/221784314946?text=${msg}`);
 
 panier=[];
-afficherPanier();
-}
 
-function scrollToCommande(){
-document.getElementById("commande").scrollIntoView({behavior:"smooth"});
+afficherPanier();
+
 }
 
 window.onload=()=>{
+
 afficherProduits();
-};
+
+}
 
 </script>
 
