@@ -13,6 +13,8 @@ font-family:Arial;
 background:#f5f5f5;
 }
 
+/* HEADER */
+
 header{
 background:white;
 padding:10px;
@@ -36,6 +38,8 @@ border-radius:5px;
 border:1px solid #ccc;
 }
 
+/* MENU */
+
 .menu{
 background:#f68b1e;
 padding:10px;
@@ -50,6 +54,8 @@ font-weight:bold;
 cursor:pointer;
 }
 
+/* LAYOUT */
+
 .layout{
 display:flex;
 }
@@ -58,7 +64,6 @@ display:flex;
 width:220px;
 background:white;
 padding:15px;
-box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
 
 .categories ul{
@@ -68,44 +73,37 @@ padding:0;
 
 .categories li{
 padding:10px;
-border-bottom:1px solid #eee;
 cursor:pointer;
 }
 
-.categories li:hover{
-background:#f5f5f5;
-}
+/* CONTENT */
 
 .content{
 flex:1;
-padding:20px;
+padding:15px;
 }
+
+/* GRID */
 
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-margin-top:20px;
+gap:15px;
 }
+
+/* PRODUIT */
 
 .produit{
 background:white;
-border-radius:8px;
+border-radius:10px;
 overflow:hidden;
 box-shadow:0 2px 6px rgba(0,0,0,0.1);
-transition:0.3s;
-position:relative;
-}
-
-.produit:hover{
-transform:scale(1.04);
 }
 
 .produit img{
 width:100%;
 height:180px;
 object-fit:cover;
-cursor:pointer;
 }
 
 .produit-info{
@@ -117,6 +115,8 @@ color:#f68b1e;
 font-weight:bold;
 }
 
+/* BUTTON */
+
 .btn{
 background:#f68b1e;
 color:white;
@@ -127,10 +127,12 @@ border-radius:5px;
 cursor:pointer;
 }
 
+/* PANIER */
+
 .panier-float{
 position:fixed;
-right:20px;
-bottom:20px;
+right:15px;
+bottom:15px;
 background:#f68b1e;
 color:white;
 padding:15px;
@@ -144,6 +146,8 @@ padding:15px;
 border-radius:10px;
 margin-top:20px;
 }
+
+/* MODAL */
 
 .modal{
 display:none;
@@ -159,8 +163,9 @@ align-items:center;
 
 .modal img{
 max-width:90%;
-max-height:90%;
 }
+
+/* FOOTER */
 
 footer{
 background:black;
@@ -168,6 +173,67 @@ color:white;
 text-align:center;
 padding:20px;
 margin-top:40px;
+}
+
+/* MOBILE */
+
+@media (max-width:768px){
+
+header{
+flex-direction:column;
+gap:10px;
+}
+
+.search-bar{
+width:90%;
+}
+
+.menu{
+display:flex;
+overflow-x:auto;
+}
+
+.menu a{
+flex:0 0 auto;
+margin:0 10px;
+font-size:14px;
+}
+
+.layout{
+flex-direction:column;
+}
+
+.categories{
+width:100%;
+}
+
+.categories ul{
+display:flex;
+overflow-x:auto;
+}
+
+.categories li{
+flex:0 0 auto;
+background:white;
+margin-right:10px;
+padding:8px;
+border-radius:5px;
+}
+
+.grid{
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+}
+
+.produit img{
+height:130px;
+}
+
+.panier-float{
+padding:12px;
+font-size:18px;
+}
+
 }
 
 </style>
@@ -184,34 +250,27 @@ margin-top:40px;
 <div class="logo" onclick="filtrer('all')">GENERAL VAISELLE</div>
 
 <input type="text" id="recherche" class="search-bar"
-placeholder="Rechercher produit..."
-onkeyup="rechercherProduit()">
+placeholder="Rechercher..." onkeyup="rechercherProduit()">
 
 </header>
 
 <nav class="menu">
-
 <a onclick="filtrer('all')">Accueil</a>
 <a onclick="filtrer('cuisine')">Cuisine</a>
 <a onclick="filtrer('vaisselle')">Vaisselle</a>
 <a onclick="filtrer('tasses')">Tasses</a>
-
 </nav>
 
 <div class="layout">
 
 <aside class="categories">
-
-<h3>Catégories</h3>
-
 <ul>
-<li onclick="filtrer('all')">Tous les produits</li>
+<li onclick="filtrer('all')">Tous</li>
 <li onclick="filtrer('vaisselle')">Vaisselle</li>
 <li onclick="filtrer('bols')">Bols</li>
 <li onclick="filtrer('tasses')">Tasses</li>
 <li onclick="filtrer('cuisine')">Cuisine</li>
 </ul>
-
 </aside>
 
 <div class="content">
@@ -223,7 +282,6 @@ onkeyup="rechercherProduit()">
 <section id="commande">
 
 <h2>Panier</h2>
-
 <div id="panier" class="panier-box">Panier vide</div>
 
 <p>Total : <span id="totalPrix">0</span> FCFA</p>
@@ -234,10 +292,7 @@ onkeyup="rechercherProduit()">
 </div>
 
 <footer>
-
 <p>© 2026 GENERAL VAISELLE</p>
-<p>Livraison rapide partout à Dakar</p>
-
 </footer>
 
 <div class="modal" id="modal" onclick="fermerZoom()">
@@ -246,44 +301,22 @@ onkeyup="rechercherProduit()">
 
 <script>
 
+/* PRODUITS */
+
 let produits = [
-
-{nom:"Ensemble glasser", prix:9000, image:"A.jpeg"}, 
- {nom:"Mixeur 1", prix:12000, image:"B.jpeg"},
- {nom:"Mixeur 2", prix:10000, image:"C.jpeg"},
- {nom:"Range toilette", prix:6000, image:"D.jpeg"},
- {nom:"Ensemble gamel", prix:15000, image:"H.jpeg"}, 
- {nom:"Deli Glass", prix:2500, image:"3.jpeg"},
- {nom:"7 paquets de bol", prix:3500, image:"11.jpeg"},
- {nom:"Tasses", prix:3000, image:"10.jpeg"},
- {nom:"Bol", prix:5000, image:"I.jpeg"},
- {nom:"Tasse 6pcs", prix:1500, image:"4.jpeg"}, 
- {nom:"Bol en verre", prix:1500, image:"5.jpeg"},
- {nom:"Bol ensemble", prix:15500, image:"M.jpeg"},
- {nom:"Nappes toile 2pcs", prix:3000, image:"8.jpeg"}, 
- {nom:"Tasses 2pcs", prix:3500, image:"6.jpeg"},
- {nom:"Tabouret", prix:1500, image:"T.jpeg"},
- {nom:"Tasse deli glass 6pcs", prix:3000, image:"U.jpeg"}, 
- {nom:"tasses", prix:6000, image:"13.jpeg"}, 
- {nom:"tasses", prix:5000, image:"14.jpeg"},
- {nom:"ensemble marmite", prix:12000, image:"15.jpeg"},
- {nom:"marmite", prix:3500, image:"16.jpeg"}, 
- {nom:"marmite", prix:3000, image:"17.jpeg"}, 
- {nom:"tasses 6pcs", prix:3500, image:"18.jpeg"},
- {nom:"Tasses boissons", prix:3500, image:"19.jpeg"}, 
- {nom:"ensemble", prix:12000, image:"20.jpeg"}, 
- {nom:"Bol en plastique", prix:500, image:"21.jpeg"}, 
- {nom:"Bol en verre", prix:1500, image:"5.jpeg"},
- {nom:"Bol ensemble", prix:15500, image:"M.jpeg"},
- {nom:"Nappes toile 2pcs", prix:3000, image:"8.jpeg"},
- {nom:"Tasses 2pcs", prix:3500, image:"6.jpeg"},
- {nom:"Tabouret", prix:1500, image:"T.jpeg"},
- {nom:"Tasse deli glass 6pcs", prix:3000, image:"U.jpeg"},
- {nom:"Glassser ensemble", prix:15000, image:"7.jpeg"} 
-
+{nom:"Ensemble glasser", prix:9000, image:"A.jpeg", cat:"vaisselle"},
+{nom:"Mixeur", prix:12000, image:"B.jpeg", cat:"cuisine"},
+{nom:"Tasses", prix:3000, image:"10.jpeg", cat:"tasses"},
+{nom:"Bol", prix:5000, image:"I.jpeg", cat:"bols"},
+{nom:"Deli Glass", prix:2500, image:"3.jpeg", cat:"tasses"},
+{nom:"Tabouret", prix:1500, image:"T.jpeg", cat:"maison"}
 ];
 
+/* PANIER */
+
 let panier=[];
+
+/* AFFICHER */
 
 function afficherProduits(liste=produits){
 
@@ -291,68 +324,45 @@ let c=document.getElementById("produits");
 c.innerHTML="";
 
 liste.forEach(p=>{
-
 c.innerHTML+=`
 <div class="produit">
-
 <img src="${p.image}" onclick="zoom('${p.image}')">
-
 <div class="produit-info">
-
 <h4>${p.nom}</h4>
-
 <p class="prix">${p.prix} FCFA</p>
-
-<button class="btn"
-onclick="ajouterProduitPanier('${p.nom}',${p.prix})">
-Ajouter au panier
+<button class="btn" onclick="ajouterProduitPanier('${p.nom}',${p.prix})">
+Ajouter
 </button>
-
 </div>
-
-</div>
-`;
-
+</div>`;
 });
 
 }
 
+/* FILTRE */
+
 function filtrer(cat){
-
-if(cat==="all"){
-afficherProduits(produits);
-return;
+if(cat==="all"){afficherProduits(produits);return;}
+afficherProduits(produits.filter(p=>p.cat===cat));
 }
 
-let liste=produits.filter(p=>p.cat===cat);
-
-afficherProduits(liste);
-
-}
+/* RECHERCHE */
 
 function rechercherProduit(){
-
 let val=document.getElementById("recherche").value.toLowerCase();
-
-afficherProduits(
-produits.filter(p=>p.nom.toLowerCase().includes(val))
-);
-
+afficherProduits(produits.filter(p=>p.nom.toLowerCase().includes(val)));
 }
 
+/* PANIER */
+
 function ajouterProduitPanier(nom,prix){
-
 let exist=panier.find(p=>p.nom===nom);
-
 if(exist){exist.qte++}
 else{panier.push({nom,prix,qte:1})}
-
 afficherPanier();
-
 }
 
 function afficherPanier(){
-
 let div=document.getElementById("panier");
 div.innerHTML="";
 let total=0;
@@ -360,31 +370,25 @@ let total=0;
 if(panier.length===0){div.innerHTML="Panier vide"}
 
 panier.forEach((p,i)=>{
-
 let st=p.prix*p.qte;
 total+=st;
 
 div.innerHTML+=`
-<p>
-${p.nom} x${p.qte} = ${st} FCFA
-<button onclick="moins(${i})">➖</button>
-<button onclick="plus(${i})">➕</button>
-<button onclick="supprimer(${i})">❌</button>
-</p>
-`;
-
+<p>${p.nom} x${p.qte} = ${st}
+<button onclick="moins(${i})">-</button>
+<button onclick="plus(${i})">+</button>
+</p>`;
 });
 
 document.getElementById("totalPrix").innerText=total;
-
 document.getElementById("count").innerText=
 panier.reduce((s,p)=>s+p.qte,0);
-
 }
 
 function plus(i){panier[i].qte++;afficherPanier()}
-function moins(i){panier[i].qte>1?panier[i].qte--:panier.splice(i,1);afficherPanier()}
-function supprimer(i){panier.splice(i,1);afficherPanier()}
+function moins(i){panier[i].qte--;if(panier[i].qte<=0)panier.splice(i,1);afficherPanier()}
+
+/* ZOOM */
 
 function zoom(src){
 document.getElementById("modal").style.display="flex";
@@ -395,13 +399,15 @@ function fermerZoom(){
 document.getElementById("modal").style.display="none";
 }
 
+/* SCROLL */
+
 function scrollToCommande(){
 document.getElementById("commande").scrollIntoView({behavior:"smooth"});
 }
 
-window.onload=()=>{
-afficherProduits();
-}
+/* INIT */
+
+window.onload=()=>{afficherProduits();}
 
 </script>
 
