@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>GENERAL VAISELLE</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#f5f5f5}
+
+body{
+margin:0;
+font-family:Arial;
+background:#f5f5f5
+}
 
 /* HEADER */
+
 header{
 background:#fff;
 padding:12px;
@@ -18,27 +27,73 @@ align-items:center;
 box-shadow:0 2px 8px rgba(0,0,0,.1)
 }
 
-.logo{font-size:22px;font-weight:bold;color:#ff7a00;cursor:pointer}
+.logo{
+font-size:22px;
+font-weight:bold;
+color:#ff7a00;
+cursor:pointer
+}
 
-.search{width:40%;padding:10px;border-radius:6px;border:1px solid #ccc}
+.search{
+width:40%;
+padding:10px;
+border-radius:6px;
+border:1px solid #ccc
+}
 
 /* MENU */
-.menu{background:#ff7a00;padding:10px;text-align:center}
-.menu a{color:#fff;margin:0 10px;font-weight:bold;cursor:pointer}
+
+.menu{
+background:#ff7a00;
+padding:10px;
+text-align:center
+}
+
+.menu a{
+color:#fff;
+margin:0 10px;
+font-weight:bold;
+cursor:pointer
+}
 
 /* LAYOUT */
-.layout{display:flex}
+
+.layout{
+display:flex
+}
 
 /* CATEGORIES */
-.categories{width:220px;background:#fff;padding:10px}
-.categories ul{list-style:none;padding:0}
-.categories li{padding:10px;border-bottom:1px solid #eee;cursor:pointer}
-.categories li:hover{background:#f2f2f2}
+
+.categories{
+width:220px;
+background:#fff;
+padding:10px
+}
+
+.categories ul{
+list-style:none;
+padding:0
+}
+
+.categories li{
+padding:10px;
+border-bottom:1px solid #eee;
+cursor:pointer
+}
+
+.categories li:hover{
+background:#f2f2f2
+}
 
 /* CONTENT */
-.content{flex:1;padding:20px}
+
+.content{
+flex:1;
+padding:20px
+}
 
 /* GRID */
+
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -46,6 +101,7 @@ gap:18px
 }
 
 /* CARD */
+
 .card{
 background:#fff;
 border-radius:10px;
@@ -54,7 +110,10 @@ box-shadow:0 3px 10px rgba(0,0,0,.1);
 position:relative;
 transition:.3s
 }
-.card:hover{transform:scale(1.03)}
+
+.card:hover{
+transform:scale(1.03)
+}
 
 .card img{
 width:100%;
@@ -63,11 +122,17 @@ object-fit:cover;
 cursor:pointer
 }
 
-.info{padding:12px}
+.info{
+padding:12px
+}
 
-.price{color:#ff7a00;font-weight:bold}
+.price{
+color:#ff7a00;
+font-weight:bold
+}
 
 /* FAVORIS */
+
 .favori{
 position:absolute;
 top:10px;
@@ -78,10 +143,28 @@ color:white;
 text-shadow:0 0 3px black
 }
 
+/* PROMO */
+
+.promo{
+position:absolute;
+top:10px;
+left:10px;
+background:red;
+color:white;
+padding:4px 8px;
+font-size:12px;
+border-radius:4px
+}
+
 /* RATING */
-.rating{color:gold;font-size:14px}
+
+.rating{
+color:gold;
+font-size:14px
+}
 
 /* BUTTON */
+
 .btn{
 background:#ff7a00;
 color:#fff;
@@ -93,6 +176,7 @@ cursor:pointer
 }
 
 /* CART FLOAT */
+
 .cart{
 position:fixed;
 bottom:20px;
@@ -114,6 +198,7 @@ margin-left:5px
 }
 
 /* CART PANEL */
+
 .cartPanel{
 position:fixed;
 right:-350px;
@@ -128,9 +213,12 @@ overflow:auto;
 z-index:1000
 }
 
-.cartPanel.active{right:0}
+.cartPanel.active{
+right:0
+}
 
 /* MODAL IMAGE */
+
 .modal{
 display:none;
 position:fixed;
@@ -143,9 +231,12 @@ justify-content:center;
 align-items:center
 }
 
-.modal img{max-width:90%}
+.modal img{
+max-width:90%
+}
 
 /* INPUTS */
+
 input{
 padding:10px;
 width:100%;
@@ -155,69 +246,96 @@ border-radius:6px
 }
 
 /* MOBILE */
+
 @media(max-width:768px){
 
-.layout{flex-direction:column}
+.layout{
+flex-direction:column
+}
 
-.categories{width:100%}
+.categories{
+width:100%
+}
 
-.search{width:90%}
+.search{
+width:90%
+}
 
-.grid{grid-template-columns:repeat(2,1fr)}
+.grid{
+grid-template-columns:repeat(2,1fr)
+}
 
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- CART FLOAT -->
 <div class="cart" onclick="ouvrirPanier()">
 🛒 <span id="count">0</span>
 </div>
 
 <header>
-<div class="logo" onclick="filtrer('all')">GENERAL VAISELLE</div>
 
-<input class="search" id="search"
+<div class="logo" onclick="filtrer('all')">
+GENERAL VAISELLE
+</div>
+
+<input class="search"
+id="search"
 placeholder="Rechercher produit..."
 onkeyup="searchProduit()">
+
 </header>
 
 <div class="menu">
+
 <a onclick="filtrer('all')">Accueil</a>
 <a onclick="filtrer('vaisselle')">Vaisselle</a>
 <a onclick="filtrer('bols')">Bols</a>
 <a onclick="filtrer('tasses')">Tasses</a>
+
 </div>
 
 <div class="layout">
 
 <aside class="categories">
+
 <ul>
+
 <li onclick="filtrer('all')">Tous</li>
 <li onclick="filtrer('vaisselle')">Vaisselle</li>
 <li onclick="filtrer('bols')">Bols</li>
 <li onclick="filtrer('tasses')">Tasses</li>
+
 </ul>
+
 </aside>
 
 <div class="content">
 
 <h2>Produits</h2>
+
 <div class="grid" id="products"></div>
 
 </div>
+
 </div>
 
-<!-- CART PANEL -->
 <div id="cartPanel" class="cartPanel">
 
 <h2>Panier</h2>
 
 <div id="panier">Panier vide</div>
 
-<p><b>Total : <span id="total">0</span> FCFA</b></p>
+<p>
+Livraison : <span id="livraison">1000</span> FCFA
+</p>
+
+<p>
+<b>Total : <span id="total">0</span> FCFA</b>
+</p>
 
 <h3>Livraison</h3>
 
@@ -229,22 +347,14 @@ onkeyup="searchProduit()">
 Commander WhatsApp
 </button>
 
-<hr>
+<br><br>
 
-<h3>📦 Suivi commande</h3>
-
-<input id="numCommande" placeholder="Numéro de commande">
-
-<button class="btn" onclick="suivi()">Suivre</button>
-
-<p id="etatCommande"></p>
-
-<br>
-<button class="btn" onclick="fermerPanier()">Fermer</button>
+<button class="btn" onclick="fermerPanier()">
+Fermer
+</button>
 
 </div>
 
-<!-- ZOOM IMAGE -->
 <div class="modal" id="modal" onclick="closeZoom()">
 <img id="zoom">
 </div>
@@ -285,9 +395,11 @@ let produits=[
  {nom:"Tasse deli glass 6pcs", prix:3000, image:"U.jpeg"},
  {nom:"Glassser ensemble", prix:15000, image:"7.jpeg"}
 
+
+
 ]
 
-let panier=[]
+let panier=JSON.parse(localStorage.getItem("panier"))||[]
 
 function afficherProduits(liste=produits){
 
@@ -301,7 +413,7 @@ c.innerHTML+=`
 
 <div class="card">
 
-<span class="favori" onclick="favori(this)">❤</span>
+<span class="favori">❤</span>
 
 <img src="${p.image}" onclick="zoom('${p.image}')">
 
@@ -319,7 +431,9 @@ Ajouter
 </button>
 
 </div>
+
 </div>
+
 `
 
 })
@@ -338,30 +452,17 @@ produits.filter(p=>p.cat===cat)
 
 function searchProduit(){
 
-let v=document.getElementById("search")
-.value.toLowerCase()
+let v=document.getElementById("search").value.toLowerCase()
 
 afficherProduits(
+
 produits.filter(p=>
 p.nom.toLowerCase().includes(v)
 )
+
 )
 
 }
-
-/* FAVORIS */
-function favori(el){
-
-if(el.style.color=="red"){
-el.style.color="white"
-}
-else{
-el.style.color="red"
-}
-
-}
-
-/* PANIER */
 
 function add(nom,prix){
 
@@ -369,6 +470,8 @@ let e=panier.find(p=>p.nom===nom)
 
 if(e){e.qte++}
 else{panier.push({nom,prix,qte:1})}
+
+localStorage.setItem("panier",JSON.stringify(panier))
 
 showPanier()
 
@@ -382,22 +485,34 @@ div.innerHTML=""
 
 let total=0
 
-if(panier.length==0){div.innerHTML="Panier vide"}
-
 panier.forEach((p,i)=>{
 
 let st=p.prix*p.qte
+
 total+=st
 
 div.innerHTML+=`
+
 <p>
+
 ${p.nom} x${p.qte} = ${st}
+
 <button onclick="plus(${i})">+</button>
 <button onclick="moins(${i})">-</button>
+
 </p>
+
 `
 
 })
+
+let livraison=1000
+
+if(total>20000){livraison=0}
+
+document.getElementById("livraison").innerText=livraison
+
+total=total+livraison
 
 document.getElementById("total").innerText=total
 
@@ -406,18 +521,26 @@ panier.reduce((s,p)=>s+p.qte,0)
 
 }
 
-function plus(i){panier[i].qte++;showPanier()}
-function moins(i){
-panier[i].qte--
-if(panier[i].qte<=0)panier.splice(i,1)
+function plus(i){
+panier[i].qte++
 showPanier()
 }
 
-/* PANIER PANEL */
+function moins(i){
+
+panier[i].qte--
+
+if(panier[i].qte<=0)
+panier.splice(i,1)
+
+showPanier()
+
+}
 
 function ouvrirPanier(){
 document.getElementById("cartPanel")
 .classList.add("active")
+showPanier()
 }
 
 function fermerPanier(){
@@ -425,28 +548,29 @@ document.getElementById("cartPanel")
 .classList.remove("active")
 }
 
-/* ZOOM IMAGE */
-
 function zoom(src){
+
 document.getElementById("modal").style.display="flex"
+
 document.getElementById("zoom").src=src
+
 }
 
 function closeZoom(){
-document.getElementById("modal").style.display="none"
-}
 
-/* WHATSAPP */
+document.getElementById("modal").style.display="none"
+
+}
 
 function commander(){
 
 let nom=document.getElementById("nom").value
+
 let tel=document.getElementById("tel").value
+
 let adr=document.getElementById("adresse").value
 
-if(panier.length==0){alert("Panier vide");return}
-
-let total=panier.reduce((s,p)=>s+p.prix*p.qte,0)
+let total=document.getElementById("total").innerText
 
 let msg=encodeURIComponent(
 
@@ -469,26 +593,16 @@ window.open(
 
 }
 
-/* SUIVI */
+window.onload=()=>{
 
-function suivi(){
+afficherProduits()
 
-let num=document.getElementById("numCommande").value
-
-if(num=="123"){
-document.getElementById("etatCommande")
-.innerText="Commande en livraison 🚚"
-}
-else{
-document.getElementById("etatCommande")
-.innerText="Commande en préparation 📦"
-}
+showPanier()
 
 }
-
-window.onload=()=>afficherProduits()
 
 </script>
 
 </body>
 </html>
+```
