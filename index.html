@@ -6,152 +6,163 @@
 <title>GENERAL VAISELLE</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#f5f5f5}
-
-/* TOP BAR */
-.topbar{
-background:#000;color:#fff;text-align:center;
-padding:6px;font-size:13px
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#f1f1f1;
 }
 
 /* HEADER */
 header{
-background:#fff;padding:10px;
-display:flex;flex-direction:column;
-gap:8px;position:sticky;top:0;z-index:1000;
+background:#fff;
+padding:10px;
+display:flex;
+align-items:center;
+gap:10px;
+position:sticky;
+top:0;
+z-index:1000;
+box-shadow:0 2px 5px rgba(0,0,0,.05);
 }
 
 .logo{
-font-size:20px;font-weight:bold;
-color:#ff6600;text-align:center
+font-size:18px;
+font-weight:bold;
+color:#f68b1e;
+white-space:nowrap;
 }
 
 .search{
-width:100%;padding:10px;
-border-radius:8px;border:1px solid #ccc
+flex:1;
+padding:10px;
+border-radius:25px;
+border:none;
+background:#f5f5f5;
 }
 
-/* PC HEADER */
-@media(min-width:768px){
-header{
-flex-direction:row;
-align-items:center;
-justify-content:space-between;
-}
-.logo{text-align:left}
-.search{width:300px}
-}
-
-/* BARRE CATEGORIES */
+/* CATEGORIES */
 .catBar{
-display:flex;overflow-x:auto;
-background:#fff;padding:10px;
-gap:10px;border-bottom:1px solid #eee
+display:flex;
+overflow-x:auto;
+gap:10px;
+padding:10px;
+background:#fff;
 }
-.catBar::-webkit-scrollbar{display:none}
 
 .catBtn{
 flex:0 0 auto;
 padding:8px 14px;
-background:#f2f2f2;
+background:#f5f5f5;
 border-radius:20px;
-font-size:14px;
-cursor:pointer;
-white-space:nowrap
-}
-.catBtn.active{
-background:#ff6600;color:#fff
+font-size:13px;
 }
 
-/* GRID RESPONSIVE */
+.catBtn.active{
+background:#f68b1e;
+color:#fff;
+}
+
+/* GRID */
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-gap:15px;
-padding:15px;
-max-width:1200px;
-margin:auto;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+padding:10px;
 }
 
-/* CARD */
+/* CARD PRODUIT */
 .card{
-background:#fff;border-radius:10px;
+background:#fff;
+border-radius:8px;
 overflow:hidden;
-box-shadow:0 2px 6px rgba(0,0,0,.1);
-transition:.2s;
-}
-.card:hover{
-transform:scale(1.03);
+box-shadow:0 1px 4px rgba(0,0,0,.08);
 }
 
 .card img{
-width:100%;height:150px;
-object-fit:cover
+width:100%;
+height:130px;
+object-fit:cover;
 }
 
-.info{padding:8px}
+.info{
+padding:8px;
+}
 
 .info h4{
-font-size:14px;margin:0 0 5px 0
+font-size:13px;
+margin:0;
+height:32px;
+overflow:hidden;
 }
 
 .price{
-color:#ff6600;font-weight:bold;
-font-size:14px
+color:#f68b1e;
+font-weight:bold;
+font-size:14px;
+margin-top:5px;
 }
 
+/* BOUTON */
 .btn{
-background:#ff6600;color:#fff;
-border:none;padding:10px;
-width:100%;border-radius:8px;
-font-weight:bold;cursor:pointer;
+background:#f68b1e;
+color:#fff;
+border:none;
+padding:10px;
+width:100%;
+border-radius:6px;
+margin-top:6px;
+font-size:14px;
 }
 
-/* CART FLOAT */
+/* PANIER FLOAT */
 .cart{
-position:fixed;bottom:70px;right:15px;
-background:#ff6600;color:#fff;
-padding:12px;border-radius:50px;
-cursor:pointer;
+position:fixed;
+bottom:70px;
+right:15px;
+background:#f68b1e;
+color:#fff;
+padding:12px;
+border-radius:50%;
+box-shadow:0 2px 10px rgba(0,0,0,.2);
 }
 
+/* BADGE */
 .cart span{
-background:#fff;color:#ff6600;
-padding:3px 7px;border-radius:50%;
-margin-left:5px
-}
-
-/* PANIER */
-.cartPanel{
-position:fixed;top:0;left:0;
-width:100%;height:100%;
-background:#fff;z-index:2000;
-display:none;flex-direction:column;
-padding:15px
-}
-.cartPanel.active{display:flex}
-
-#panier{
-max-height:200px;
-overflow-y:auto;
-}
-
-input,select{
-width:100%;padding:10px;margin:5px 0;
-border-radius:6px;border:1px solid #ccc
+background:#fff;
+color:#f68b1e;
+padding:3px 7px;
+border-radius:50%;
+margin-left:5px;
 }
 
 /* NAV BAS */
 .bottomNav{
-position:fixed;bottom:0;left:0;
-width:100%;background:#fff;
-display:flex;justify-content:space-around;
-padding:10px;
-box-shadow:0 -2px 10px rgba(0,0,0,.1)
+position:fixed;
+bottom:0;
+width:100%;
+background:#fff;
+display:flex;
+justify-content:space-around;
+padding:10px 0;
+box-shadow:0 -2px 8px rgba(0,0,0,.1);
 }
 
 .bottomNav div{
-text-align:center;font-size:14px;cursor:pointer
+font-size:12px;
+text-align:center;
+}
+
+/* ESPACE POUR NAV */
+body{
+padding-bottom:70px;
+}
+  .card:hover{
+transform:scale(1.02);
+transition:0.2s;
+}
+
+.btn:active{
+transform:scale(0.95);
 }
 </style>
 </head>
@@ -163,10 +174,9 @@ text-align:center;font-size:14px;cursor:pointer
 </div>
 
 <header>
-<div class="logo">GENERAL VAISELLE</div>
-<input class="search" id="search" placeholder="Rechercher..." onkeyup="searchProduit()">
+<div class="logo">🛒 GV</div>
+<input class="search" placeholder="Rechercher produit...">
 </header>
-
 <!-- CATEGORIES -->
 <div class="catBar">
 <div class="catBtn active" onclick="setCat(this,'all')">Tous</div>
