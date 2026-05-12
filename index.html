@@ -627,6 +627,7 @@ ${panier.map(p=>`• ${p.nom} × ${p.qte}  →  ${fmtPrice(p.prix*p.qte)}`).join
   window.open(`https://wa.me/221784314946?text=${msg}`,"_blank");
 }
 
+  
 let toastTimer;
 function showToast(msg){
   const t=document.getElementById("toast");
