@@ -6,241 +6,19 @@
 <title>GENERAL VAISELLE</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --orange:#f68b1e;
-  --orange-dark:#e07510;
-  --orange-light:#fff3e0;
-  --dark:#1a1a2e;
-  --mid:#4a4a6a;
-  --light:#f8f7f4;
-  --white:#ffffff;
-  --radius:14px;
-}
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-body{
-  font-family:'DM Sans',sans-serif;
-  background:var(--light);
-  color:var(--dark);
-  padding-bottom:90px;
-}
-
-/* ===== TOPBAR ===== */
-.topbar{
-  background:var(--orange);
-  color:#fff;
-  text-align:center;
-  padding:7px;
-  font-size:12px;
-  font-family:'Syne',sans-serif;
-  font-weight:600;
-}
-
-/* ===== HEADER ===== */
-header{
-  background:var(--white);
-  padding:12px 16px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  position:sticky;
-  top:0;
-  z-index:900;
-  box-shadow:0 2px 12px rgba(0,0,0,.06);
-}
-
-.logo{
-  font-family:'Syne',sans-serif;
-  font-size:20px;
-  font-weight:800;
-  color:var(--orange);
-  display:flex;
-  align-items:center;
-  gap:6px;
-}
-
-.logo-icon{
-  width:36px;
-  height:36px;
-  background:var(--orange);
-  border-radius:10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-/* ===== SEARCH ===== */
-.search-wrap{
-  flex:1;
-  position:relative;
-}
-
-.search{
-  width:100%;
-  padding:10px 12px 10px 36px;
-  border-radius:25px;
-  border:none;
-  background:#f4f4f4;
-  outline:none;
-}
-
-/* ===== BANNER ===== */
-.banner{
-  margin:14px;
-  background:linear-gradient(120deg,var(--orange),#ff9a3c);
-  border-radius:var(--radius);
-  padding:18px;
-  color:#fff;
-  position:relative;
-}
-
-/* ===== CATEGORIES ===== */
-.cat-section{
-  padding:10px 14px;
-}
-
-.catBar{
-  display:flex;
-  gap:8px;
-  overflow-x:auto;
-  scrollbar-width:none;
-}
-
-.catBar::-webkit-scrollbar{
-  display:none;
-}
-
-.catBtn{
-  padding:8px 16px;
-  border-radius:20px;
-  border:none;
-  cursor:pointer;
-  background:#fff;
-  white-space:nowrap;
-  font-size:13px;
-  box-shadow:0 2px 8px rgba(0,0,0,.05);
-}
-
-.catBtn.active{
-  background:var(--orange);
-  color:#fff;
-}
-
-/* ===== TITRE SECTION ===== */
-.section-head{
-  display:flex;
-  justify-content:space-between;
-  padding:10px 14px;
-}
-
-/* ===== GRID PRODUITS ===== */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
-  padding:0 14px 14px;
-}
-
-/* ===== CARD ===== */
-.card{
-  background:#fff;
-  border-radius:var(--radius);
-  overflow:hidden;
-  box-shadow:0 2px 10px rgba(0,0,0,.08);
-  transition:.2s;
-}
-
-.card:hover{
-  transform:translateY(-4px);
-}
-
-.card-img{
-  width:100%;
-  height:140px;
-  object-fit:cover;
-  cursor:pointer;
-}
-
-.info{
-  padding:10px;
-}
-
-.info h4{
-  font-size:13px;
-  font-family:'Syne';
-  height:34px;
-  overflow:hidden;
-}
-
-.price{
-  color:var(--orange);
-  font-weight:800;
-  margin-top:4px;
-}
-
-.btn{
-  width:100%;
-  margin-top:8px;
-  padding:8px;
-  border:none;
-  border-radius:8px;
-  background:var(--orange);
-  color:#fff;
-  cursor:pointer;
-}
-
-/* ===== CART FLOAT ===== */
-.cart-fab{
-  position:fixed;
-  bottom:90px;
-  right:16px;
-  width:54px;
-  height:54px;
-  border-radius:50%;
-  background:var(--orange);
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px;
-  box-shadow:0 4px 16px rgba(0,0,0,.2);
-}
-
-/* ===== MODAL IMAGE ===== */
-.img-modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.85);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-}
-
-.img-modal img{
-  max-width:90%;
-  max-height:85%;
-  border-radius:12px;
-}
-
-.img-modal.active{
-  display:flex;
-}
-
-/* ===== TABLET ===== */
-@media (min-width:768px){
+/* =========================
+   TABLETTE
+========================= */
+@media (min-width: 768px){
   .grid{
     grid-template-columns:repeat(3,1fr);
   }
 }
 
-/* ===== PC ===== */
-@media (min-width:1100px){
+/* =========================
+   PC
+========================= */
+@media (min-width: 1100px){
   .grid{
     grid-template-columns:repeat(4,1fr);
     max-width:1200px;
@@ -256,42 +34,104 @@ header{
   }
 }
 
-/* ===== MOBILE FIX ===== */
-@media (max-width:768px){
+/* =========================
+   MOBILE (IMPORTANT FIX)
+========================= */
+@media (max-width: 768px){
+
+  body{
+    padding-bottom:110px;
+  }
 
   header{
     flex-direction:column;
     align-items:stretch;
     gap:10px;
+    padding:10px;
   }
 
   .logo{
     justify-content:center;
+    font-size:18px;
+  }
+
+  .search{
+    width:100%;
+    font-size:14px;
+  }
+
+  .banner{
+    margin:10px;
+    padding:14px;
+  }
+
+  .catBar{
+    padding:10px;
+    gap:6px;
+  }
+
+  .catBtn{
+    font-size:12px;
+    padding:7px 12px;
+  }
+
+  .section-head{
+    padding:10px;
   }
 
   .grid{
     grid-template-columns:repeat(2,1fr);
     gap:10px;
-    padding:0 10px;
+    padding:0 10px 14px;
+  }
+
+  .card{
+    border-radius:12px;
   }
 
   .card-img{
-    height:120px;
+    height:110px;
+    object-fit:cover;
+  }
+
+  .info h4{
+    font-size:12px;
+    height:32px;
+  }
+
+  .price{
+    font-size:14px;
   }
 
   .btn{
     font-size:12px;
+    padding:7px;
+  }
+
+  .cart-fab{
+    width:50px;
+    height:50px;
+    font-size:20px;
+    bottom:80px;
   }
 }
 
-/* ===== PETIT MOBILE ===== */
-@media (max-width:420px){
+/* =========================
+   PETIT MOBILE (TRÈS IMPORTANT)
+========================= */
+@media (max-width: 420px){
+
   .grid{
     grid-template-columns:1fr;
   }
 
   .card-img{
-    height:150px;
+    height:160px;
+  }
+
+  .catBar{
+    flex-wrap:nowrap;
+    overflow-x:auto;
   }
 }
 </style>
