@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -169,8 +168,36 @@ header{
 }
 .card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(246,139,30,.18);}
 
-.card-img-wrap{position:relative;overflow:hidden;}
-.card-img{width:100%;height:140px;object-fit:cover;background:#f0f0f0;display:block;}
+.card-img-wrap{
+  position:relative;
+  overflow:hidden;
+  cursor:zoom-in;
+}
+.card-img-wrap::after{
+  content:"🔍";
+  position:absolute;
+  bottom:8px;right:8px;
+  background:rgba(0,0,0,.45);
+  color:#fff;
+  font-size:14px;
+  width:30px;height:30px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;
+  transition:.2s;
+  pointer-events:none;
+  backdrop-filter:blur(4px);
+}
+.card-img-wrap:hover::after{opacity:1}
+
+.card-img{
+  width:100%;height:140px;
+  object-fit:cover;
+  background:#f0f0f0;
+  display:block;
+  transition:transform .3s ease;
+}
+.card-img-wrap:hover .card-img{transform:scale(1.05)}
 
 .card-badge{
   position:absolute;top:8px;left:8px;
@@ -178,6 +205,7 @@ header{
   font-size:10px;font-weight:700;
   padding:3px 8px;border-radius:10px;
   font-family:'Syne',sans-serif;
+  z-index:1;
 }
 
 .info{padding:10px 10px 12px;}
@@ -225,6 +253,88 @@ header{
   display:flex;align-items:center;justify-content:center;
   box-shadow:0 1px 4px rgba(0,0,0,.15);
 }
+
+/* ===== LIGHTBOX ===== */
+.lightbox{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0);
+  z-index:2000;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+  transition:background .3s ease;
+}
+.lightbox.active{
+  background:rgba(0,0,0,.92);
+  pointer-events:all;
+}
+.lb-inner{
+  position:relative;
+  max-width:96vw;max-height:90vh;
+  transform:scale(0.8) translateY(20px);
+  opacity:0;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1), opacity .3s ease;
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+}
+.lightbox.active .lb-inner{
+  transform:scale(1) translateY(0);
+  opacity:1;
+}
+.lb-img{
+  max-width:96vw;
+  max-height:75vh;
+  object-fit:contain;
+  border-radius:16px;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+  display:block;
+  touch-action:pinch-zoom;
+}
+.lb-info{text-align:center;color:#fff;font-family:'Syne',sans-serif;}
+.lb-name{font-size:16px;font-weight:700}
+.lb-price{font-size:14px;color:var(--orange);font-weight:600;margin-top:3px}
+.lb-close{
+  position:fixed;top:16px;right:16px;
+  width:42px;height:42px;border-radius:50%;
+  background:rgba(255,255,255,.15);
+  backdrop-filter:blur(8px);
+  border:2px solid rgba(255,255,255,.3);
+  color:#fff;font-size:20px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:.2s;z-index:2001;
+}
+.lb-close:hover{background:rgba(255,255,255,.3)}
+.lb-nav{
+  position:fixed;top:50%;
+  transform:translateY(-50%);
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,.15);
+  backdrop-filter:blur(8px);
+  border:2px solid rgba(255,255,255,.3);
+  color:#fff;font-size:22px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:.2s;z-index:2001;
+}
+.lb-nav:hover{background:rgba(255,255,255,.3)}
+.lb-prev{left:10px}
+.lb-next{right:10px}
+.lb-dots{display:flex;gap:6px;justify-content:center;margin-top:4px;}
+.lb-dot{
+  width:6px;height:6px;border-radius:3px;
+  background:rgba(255,255,255,.35);
+  transition:.2s;cursor:pointer;
+}
+.lb-dot.active{background:var(--orange);width:18px;}
+.lb-btn{
+  background:var(--orange);color:#fff;
+  border:none;padding:12px 28px;
+  border-radius:25px;
+  font-size:14px;font-family:'Syne',sans-serif;font-weight:700;
+  cursor:pointer;transition:.2s;
+  display:flex;align-items:center;gap:8px;
+  box-shadow:0 4px 16px rgba(246,139,30,.45);
+}
+.lb-btn:hover{background:var(--orange-dark);transform:scale(1.04)}
+.lb-btn:active{transform:scale(0.97)}
+/* ===== END LIGHTBOX ===== */
 
 .overlay{
   position:fixed;inset:0;background:rgba(0,0,0,.45);
@@ -343,7 +453,7 @@ header{
   background:var(--dark);color:#fff;
   padding:10px 20px;border-radius:25px;
   font-size:13px;opacity:0;transition:.3s;
-  z-index:2000;white-space:nowrap;pointer-events:none;
+  z-index:2100;white-space:nowrap;pointer-events:none;
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
@@ -397,6 +507,22 @@ header{
 <div class="cart-fab" onclick="ouvrirPanier()">
   🛒
   <div class="cart-badge" id="count" style="display:none">0</div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="lbBgClick(event)">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <button class="lb-nav lb-prev" onclick="lbNav(-1)">‹</button>
+  <button class="lb-nav lb-next" onclick="lbNav(1)">›</button>
+  <div class="lb-inner">
+    <img class="lb-img" id="lbImg" src="" alt="">
+    <div class="lb-info">
+      <div class="lb-name" id="lbName"></div>
+      <div class="lb-price" id="lbPrice"></div>
+    </div>
+    <div class="lb-dots" id="lbDots"></div>
+    <button class="lb-btn" id="lbAddBtn" onclick="lbAddToCart()">🛒 Ajouter au panier</button>
+  </div>
 </div>
 
 <div class="overlay" id="overlay" onclick="fermerPanier()"></div>
@@ -457,7 +583,6 @@ header{
 
 <script>
 const CAT_LABELS={all:'Tous les produits',vaisselle:'Vaisselle',bol:'Bols',tasse:'Tasses'};
-const CAT_EMOJI={vaisselle:'🍽️',bol:'🥣',tasse:'☕',all:'🛒'};
 
 let produits = [
   {nom:"Ensemble glasser", prix:9000, image:"A.jpeg", cat:"vaisselle"},
@@ -465,22 +590,18 @@ let produits = [
   {nom:"Mixeur 2", prix:10000, image:"C.jpeg", cat:"vaisselle"},
   {nom:"Range toilette", prix:6000, image:"D.jpeg", cat:"vaisselle"},
   {nom:"Ensemble gamel", prix:15000, image:"H.jpeg", cat:"vaisselle"},
-
   {nom:"Deli Glass", prix:2500, image:"3.jpeg", cat:"tasse"},
   {nom:"Tasses", prix:3000, image:"10.jpeg", cat:"tasse"},
   {nom:"Tasse 6pcs", prix:1500, image:"4.jpeg", cat:"tasse"},
   {nom:"Tasses 2pcs", prix:3500, image:"6.jpeg", cat:"tasse"},
   {nom:"Tasse deli glass 6pcs", prix:3000, image:"U.jpeg", cat:"tasse"},
-
   {nom:"Bol", prix:5000, image:"I.jpeg", cat:"bol"},
   {nom:"Bol en verre", prix:1500, image:"5.jpeg", cat:"bol"},
   {nom:"7 paquets de bol", prix:3500, image:"11.jpeg", cat:"bol"},
   {nom:"Bol ensemble", prix:15500, image:"M.jpeg", cat:"bol"},
   {nom:"Bol en plastique", prix:500, image:"21.jpeg", cat:"bol"},
-
   {nom:"Tasses", prix:3250, image:"A1.jpeg", cat:"tasses"},
   {nom:"Tasses", prix:3000, image:"A2.jpeg", cat:"tasses"},
-
   {nom:"Produit A3", prix:1500, image:"A3.jpeg", cat:"tabouret 1p"},
   {nom:"Produit A4", prix:10000, image:"A4.jpeg", cat:"Mixeur"},
   {nom:"Produit A5", prix:1000, image:"A5.jpeg", cat:"tasses"},
@@ -489,7 +610,6 @@ let produits = [
   {nom:"Produit A8", prix:1000, image:"A8.jpeg", cat:"tasses"},
   {nom:"Produit A9", prix:1000, image:"A9.jpeg", cat:"tasses"},
   {nom:"Produit A10", prix:1000, image:"A10.jpeg", cat:"tasses"},
-
   {nom:"Produit A11", prix:1000, image:"A11.jpeg", cat:"tasses"},
   {nom:"Produit A12", prix:1000, image:"A12.jpeg", cat:"tasses"},
   {nom:"Produit A13", prix:1000, image:"A13.jpeg", cat:"tasses"},
@@ -500,7 +620,6 @@ let produits = [
   {nom:"Produit A18", prix:1000, image:"A18.jpeg", cat:"tasses"},
   {nom:"Produit A19", prix:1000, image:"A19.jpeg", cat:"tasses"},
   {nom:"Produit A20", prix:1000, image:"A20.jpeg", cat:"tasses"},
-
   {nom:"Produit A21", prix:1000, image:"A21.jpeg", cat:"tasses"},
   {nom:"Produit A22", prix:1000, image:"A22.jpeg", cat:"tasses"},
   {nom:"Produit A23", prix:1000, image:"A23.jpeg", cat:"tasses"},
@@ -511,7 +630,6 @@ let produits = [
   {nom:"Produit A28", prix:1000, image:"A28.jpeg", cat:"tasses"},
   {nom:"Produit A29", prix:1000, image:"A29.jpeg", cat:"tasses"},
   {nom:"Produit A30", prix:1000, image:"A30.jpeg", cat:"tasses"},
-
   {nom:"Produit A31", prix:1000, image:"A31.jpeg", cat:"tasses"},
   {nom:"Produit A32", prix:1000, image:"A32.jpeg", cat:"tasses"},
   {nom:"Produit A33", prix:1000, image:"A33.jpeg", cat:"tasses"},
@@ -522,7 +640,6 @@ let produits = [
   {nom:"Produit A38", prix:1000, image:"A38.jpeg", cat:"tasses"},
   {nom:"Produit A39", prix:1000, image:"A39.jpeg", cat:"tasses"},
   {nom:"Produit A40", prix:1000, image:"A40.jpeg", cat:"tasses"},
-
   {nom:"Produit A41", prix:1000, image:"A41.jpeg", cat:"tasses"},
   {nom:"Produit A42", prix:1000, image:"A42.jpeg", cat:"tasses"},
   {nom:"Produit A43", prix:1000, image:"A43.jpeg", cat:"tasses"},
@@ -534,21 +651,102 @@ let produits = [
   {nom:"Produit A49", prix:1000, image:"A49.jpeg", cat:"tasses"},
   {nom:"Produit A50", prix:1000, image:"A50.jpeg", cat:"tasses"}
 ];
-let panier=[];
 
-function fmtPrice(n){return n.toLocaleString('fr-FR')+" FCFA";}
+let panier = [];
+let listeAffichee = [...produits];
+let lbIndex = 0;
 
-function afficherProduits(liste){
-  if(!liste) liste=produits;
-  const c=document.getElementById("products");
-  document.getElementById("product-count").textContent=liste.length+" article"+(liste.length>1?"s":"");
-  if(!liste.length){
-    c.innerHTML=`<div class="empty"><div class="empty-icon">🔍</div>Aucun produit trouvé</div>`;
+/* ===== LIGHTBOX ===== */
+function openLightbox(index) {
+  lbIndex = index;
+  lbUpdate();
+  buildDots();
+  document.getElementById("lightbox").classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeLightbox() {
+  document.getElementById("lightbox").classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+function lbBgClick(e) {
+  if (e.target === document.getElementById("lightbox")) closeLightbox();
+}
+
+function lbUpdate() {
+  const p = listeAffichee[lbIndex];
+  if (!p) return;
+  document.getElementById("lbImg").src = p.image;
+  document.getElementById("lbImg").alt = p.nom;
+  document.getElementById("lbName").textContent = p.nom;
+  document.getElementById("lbPrice").textContent = fmtPrice(p.prix);
+  updateDots();
+}
+
+function lbNav(dir) {
+  lbIndex = (lbIndex + dir + listeAffichee.length) % listeAffichee.length;
+  lbUpdate();
+}
+
+function lbAddToCart() {
+  const p = listeAffichee[lbIndex];
+  add(p.nom, p.prix);
+  const btn = document.getElementById("lbAddBtn");
+  btn.textContent = "✓ Ajouté !";
+  setTimeout(() => { btn.innerHTML = "🛒 Ajouter au panier"; }, 1200);
+}
+
+function buildDots() {
+  const dots = document.getElementById("lbDots");
+  const max = Math.min(listeAffichee.length, 20);
+  if (listeAffichee.length <= 1) { dots.innerHTML = ""; return; }
+  dots.innerHTML = Array.from({length: max}, (_, i) =>
+    `<div class="lb-dot${i === lbIndex ? " active" : ""}" onclick="lbGoTo(${i})"></div>`
+  ).join("");
+}
+
+function updateDots() {
+  const dots = document.getElementById("lbDots");
+  const max = Math.min(listeAffichee.length, 20);
+  dots.innerHTML = Array.from({length: max}, (_, i) =>
+    `<div class="lb-dot${i === lbIndex ? " active" : ""}" onclick="lbGoTo(${i})"></div>`
+  ).join("");
+}
+
+function lbGoTo(i) { lbIndex = i; lbUpdate(); }
+
+document.addEventListener("keydown", function(e) {
+  if (!document.getElementById("lightbox").classList.contains("active")) return;
+  if (e.key === "ArrowLeft")  lbNav(-1);
+  if (e.key === "ArrowRight") lbNav(1);
+  if (e.key === "Escape")     closeLightbox();
+});
+
+let tsX = null;
+document.getElementById("lightbox").addEventListener("touchstart", e => { tsX = e.touches[0].clientX; }, {passive:true});
+document.getElementById("lightbox").addEventListener("touchend", e => {
+  if (tsX === null) return;
+  const diff = tsX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 40) lbNav(diff > 0 ? 1 : -1);
+  tsX = null;
+});
+
+/* ===== CATALOGUE ===== */
+function fmtPrice(n) { return n.toLocaleString('fr-FR') + " FCFA"; }
+
+function afficherProduits(liste) {
+  if (!liste) liste = produits;
+  listeAffichee = liste;
+  const c = document.getElementById("products");
+  document.getElementById("product-count").textContent = liste.length + " article" + (liste.length > 1 ? "s" : "");
+  if (!liste.length) {
+    c.innerHTML = `<div class="empty"><div class="empty-icon">🔍</div>Aucun produit trouvé</div>`;
     return;
   }
-  c.innerHTML=liste.map(p=>`
+  c.innerHTML = liste.map((p, i) => `
     <div class="card">
-      <div class="card-img-wrap">
+      <div class="card-img-wrap" onclick="openLightbox(${i})" title="Voir en grand">
         <img class="card-img" src="${p.image}" alt="${p.nom}" onerror="this.style.opacity=0">
         <div class="card-badge">${p.cat}</div>
       </div>
@@ -560,64 +758,65 @@ function afficherProduits(liste){
     </div>`).join("");
 }
 
-function filtrer(cat){
-  if(cat==="all") afficherProduits(produits);
-  else afficherProduits(produits.filter(p=>p.cat===cat));
+function filtrer(cat) {
+  if (cat === "all") afficherProduits(produits);
+  else afficherProduits(produits.filter(p => p.cat === cat));
 }
 
-function setCat(el,cat){
-  document.querySelectorAll(".catBtn").forEach(b=>b.classList.remove("active"));
+function setCat(el, cat) {
+  document.querySelectorAll(".catBtn").forEach(b => b.classList.remove("active"));
   el.classList.add("active");
-  document.getElementById("section-title").textContent=CAT_LABELS[cat]||cat;
+  document.getElementById("section-title").textContent = CAT_LABELS[cat] || cat;
   filtrer(cat);
 }
 
-function navClick(el,cat,label){
-  document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));
+function navClick(el, cat, label) {
+  document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
   el.classList.add("active");
-  const btns=document.querySelectorAll(".catBtn");
-  const idx={all:0,vaisselle:1,bol:2,tasse:3}[cat];
-  btns.forEach(b=>b.classList.remove("active"));
-  btns[idx].classList.add("active");
-  document.getElementById("section-title").textContent=label;
+  const btns = document.querySelectorAll(".catBtn");
+  const idx = {all:0, vaisselle:1, bol:2, tasse:3}[cat];
+  btns.forEach(b => b.classList.remove("active"));
+  if (idx !== undefined) btns[idx].classList.add("active");
+  document.getElementById("section-title").textContent = label;
   filtrer(cat);
 }
 
-function searchProduit(){
-  const v=document.getElementById("search").value.toLowerCase().trim();
-  if(!v){afficherProduits(produits);return;}
-  afficherProduits(produits.filter(p=>p.nom.toLowerCase().includes(v)));
+function searchProduit() {
+  const v = document.getElementById("search").value.toLowerCase().trim();
+  if (!v) { afficherProduits(produits); return; }
+  afficherProduits(produits.filter(p => p.nom.toLowerCase().includes(v)));
 }
 
-function add(nom,prix){
-  let e=panier.find(p=>p.nom===nom);
-  if(e) e.qte++;
-  else panier.push({nom,prix,qte:1});
+/* ===== PANIER ===== */
+function add(nom, prix) {
+  let e = panier.find(p => p.nom === nom);
+  if (e) e.qte++;
+  else panier.push({nom, prix, qte:1});
   updateBadge();
-  showToast("✓ "+nom+" ajouté");
+  showToast("✓ " + nom + " ajouté");
 }
 
-function updateBadge(){
-  const total=panier.reduce((s,p)=>s+p.qte,0);
-  const badge=document.getElementById("count");
-  badge.textContent=total;
-  badge.style.display=total?"flex":"none";
+function updateBadge() {
+  const total = panier.reduce((s, p) => s + p.qte, 0);
+  const badge = document.getElementById("count");
+  badge.textContent = total;
+  badge.style.display = total ? "flex" : "none";
 }
 
-function showPanier(){
-  const div=document.getElementById("panier");
-  const summary=document.getElementById("summary");
-  const form=document.getElementById("orderForm");
-  if(!panier.length){
-    div.innerHTML=`<div class="cart-empty"><div class="cart-empty-icon">🛒</div>Votre panier est vide</div>`;
-    summary.style.display="none";
-    form.style.display="none";
+function showPanier() {
+  const div = document.getElementById("panier");
+  const summary = document.getElementById("summary");
+  const form = document.getElementById("orderForm");
+  if (!panier.length) {
+    div.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">🛒</div>Votre panier est vide</div>`;
+    summary.style.display = "none";
+    form.style.display = "none";
     return;
   }
-  let subtotalVal=0;
-  div.innerHTML=panier.map((p,i)=>{
-    const st=p.prix*p.qte;
-    subtotalVal+=st;
+  let subtotalVal = 0;
+  div.innerHTML = panier.map((p, i) => {
+    const st = p.prix * p.qte;
+    subtotalVal += st;
     return `<div class="cart-item">
       <div class="cart-item-info">
         <div class="cart-item-name">${p.nom}</div>
@@ -630,67 +829,66 @@ function showPanier(){
       </div>
     </div>`;
   }).join("");
-  const zone=document.getElementById("zone").value;
-  const livraison=subtotalVal>=25000?0:(zone==="dakar"?1000:3000);
-  document.getElementById("subtotal").textContent=fmtPrice(subtotalVal);
-  document.getElementById("livraison").textContent=livraison===0?"🎉 Gratuite !":fmtPrice(livraison);
-  document.getElementById("total").textContent=fmtPrice(subtotalVal+livraison);
-  summary.style.display="block";
-  form.style.display="block";
+  const zone = document.getElementById("zone").value;
+  const livraison = subtotalVal >= 25000 ? 0 : (zone === "dakar" ? 1000 : 3000);
+  document.getElementById("subtotal").textContent = fmtPrice(subtotalVal);
+  document.getElementById("livraison").textContent = livraison === 0 ? "🎉 Gratuite !" : fmtPrice(livraison);
+  document.getElementById("total").textContent = fmtPrice(subtotalVal + livraison);
+  summary.style.display = "block";
+  form.style.display = "block";
 }
 
-function plus(i){panier[i].qte++;updateBadge();showPanier();}
-function moins(i){
+function plus(i)  { panier[i].qte++; updateBadge(); showPanier(); }
+function moins(i) {
   panier[i].qte--;
-  if(panier[i].qte<=0) panier.splice(i,1);
-  updateBadge();showPanier();
+  if (panier[i].qte <= 0) panier.splice(i, 1);
+  updateBadge(); showPanier();
 }
 
-function ouvrirPanier(){
+function ouvrirPanier() {
   document.getElementById("cartPanel").classList.add("active");
   document.getElementById("overlay").classList.add("active");
   showPanier();
 }
 
-function fermerPanier(){
+function fermerPanier() {
   document.getElementById("cartPanel").classList.remove("active");
   document.getElementById("overlay").classList.remove("active");
 }
 
-function commander(){
-  const nom=document.getElementById("nom").value.trim();
-  const tel=document.getElementById("tel").value.trim();
-  const adr=document.getElementById("adresse").value.trim();
-  if(!nom||!tel||!adr){showToast("⚠️ Veuillez remplir tous les champs");return;}
-  if(!panier.length){showToast("⚠️ Votre panier est vide");return;}
-  const zone=document.getElementById("zone").value;
-  const livraison=document.getElementById("livraison").textContent;
-  const total=document.getElementById("total").textContent;
-  const msg=encodeURIComponent(
+function commander() {
+  const nom = document.getElementById("nom").value.trim();
+  const tel = document.getElementById("tel").value.trim();
+  const adr = document.getElementById("adresse").value.trim();
+  if (!nom || !tel || !adr) { showToast("⚠️ Veuillez remplir tous les champs"); return; }
+  if (!panier.length) { showToast("⚠️ Votre panier est vide"); return; }
+  const zone = document.getElementById("zone").value;
+  const livraison = document.getElementById("livraison").textContent;
+  const total = document.getElementById("total").textContent;
+  const msg = encodeURIComponent(
 `🛒 *Commande GENERAL VAISELLE*
 
 👤 Nom : ${nom}
 📞 Tél : ${tel}
 📍 Adresse : ${adr}
-🗺️ Zone : ${zone==="dakar"?"Dakar":"Hors Dakar"}
+🗺️ Zone : ${zone === "dakar" ? "Dakar" : "Hors Dakar"}
 
 ---
-${panier.map(p=>`• ${p.nom} × ${p.qte}  →  ${fmtPrice(p.prix*p.qte)}`).join("\n")}
+${panier.map(p => `• ${p.nom} × ${p.qte}  →  ${fmtPrice(p.prix * p.qte)}`).join("\n")}
 ---
 🚚 Livraison : ${livraison}
 💰 *Total : ${total}*`
   );
-  window.open(`https://wa.me/221784314946?text=${msg}`,"_blank");
+  window.open(`https://wa.me/221784314946?text=${msg}`, "_blank");
 }
 
-  
 let toastTimer;
-function showToast(msg){
-  const t=document.getElementById("toast");
-  t.textContent=msg;
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
   t.classList.add("show");
   clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>t.classList.remove("show"),2000);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 2000);
 }
 
 afficherProduits(produits);
