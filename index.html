@@ -353,6 +353,55 @@ header{
 .card:nth-child(4){animation-delay:.16s}
 .card:nth-child(5){animation-delay:.20s}
 .card:nth-child(6){animation-delay:.24s}
+/* ===== RESPONSIVE AMÉLIORÉ ===== */
+@media (min-width: 1100px){
+  .grid{
+    grid-template-columns:repeat(4,1fr);
+    max-width:1200px;
+    margin:auto;
+  }
+
+  header, .banner, .cat-section, .section-head{
+    max-width:1200px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+}
+
+@media (max-width: 768px){
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media (max-width: 480px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+}
+
+/* ===== IMAGE ZOOM (LIGHTBOX) ===== */
+.img-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+
+.img-modal img{
+  max-width:90%;
+  max-height:85%;
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,0,0,.5);
+}
+
+.img-modal.active{
+  display:flex;
+  animation:fadeIn .2s ease;
+}
 </style>
 </head>
 <body>
@@ -691,8 +740,25 @@ function showToast(msg){
   clearTimeout(toastTimer);
   toastTimer=setTimeout(()=>t.classList.remove("show"),2000);
 }
+function openImg(src){
+  document.getElementById("imgModalSrc").src = src;
+  document.getElementById("imgModal").classList.add("active");
+}
+
+function closeImgModal(){
+  document.getElementById("imgModal").classList.remove("active");
+}
 
 afficherProduits(produits);
 </script>
+<!-- IMAGE MODAL -->
+<div class="img-modal" id="imgModal" onclick="closeImgModal()">
+  <img id="imgModalSrc">
+</div>
+<img class="card-img" src="${p.image}" alt="${p.nom}" 
+onclick="openImg('${p.image}')" 
+onerror="this.style.opacity=0">
 </body>
 </html>
+
+
