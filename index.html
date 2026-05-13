@@ -752,12 +752,11 @@ function closeImgModal(){
 afficherProduits(produits);
 </script>
 <!-- IMAGE MODAL -->
-<div class="img-modal" id="imgModal" onclick="closeImgModal()">
-  <img id="imgModalSrc">
-</div>
+<div >
 <img class="card-img" src="${p.image}" alt="${p.nom}" 
 onclick="openImg('${p.image}')" 
-onerror="this.style.opacity=0">
+onerror="this.style.opacity=0">  
+</div>
 </body>
 </html>
 
