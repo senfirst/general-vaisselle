@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sen Vaisselle — Vaisselle, ustensiles de cuisine et articles ménagers à Dakar</title>
+<meta name="description" content="Sen Vaisselle est votre boutique en ligne à Dakar pour la vaisselle, les ustensiles de cuisine, les articles ménagers et la décoration de table. Commandez facilement sur WhatsApp.">
+<meta name="keywords" content="vaisselle Dakar, ustensiles de cuisine Sénégal, articles ménagers, assiettes, marmites, boutique en ligne Sénégal">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://senvaisselle.com/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sen Vaisselle — Vaisselle & articles ménagers à Dakar">
+<meta property="og:description" content="Découvrez notre sélection de vaisselle, ustensiles de cuisine et articles ménagers. Commande simple et rapide sur WhatsApp, sans compte ni panier.">
+<meta property="og:image" content="images/og-cover.jpg">
+<meta property="og:url" content="https://senvaisselle.com/">
+<meta property="og:locale" content="fr_SN">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+
+<!-- Styles -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<style>
+
+  /* ============================================================
+   SEN VAISSELLE — Design System
+   Palette : Bleu marine #0A3D91 · Orange #F7941D · Blanc #FFFFFF
+   Display : "Fraunces"  |  Body : "Plus Jakarta Sans"  |  Data : "JetBrains Mono"
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
+
+:root{
+  /* --- Couleurs de marque --- */
+  --navy: #0A3D91;
+  --navy-dark: #072a66;
+  --navy-tint: #EEF3FC;
+  --orange: #F7941D;
+  --orange-dark: #d97b0a;
+  --white: #FFFFFF;
+  --cream: #FBFAF7;
+  --ink: #16202E;
+  --ink-soft: #55637A;
+  --line: #E7EAF1;
+  --success: #1FA855;
+  --danger: #E4483C;
+
+  /* --- Typographie --- */
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* --- Rayon / ombre --- */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 28px;
+  --shadow-soft: 0 6px 24px rgba(10,61,145,0.08);
+  --shadow-lift: 0 18px 40px rgba(10,61,145,0.16);
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  font-family:var(--font-body);
+  color:var(--ink);
+  background:var(--white);
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,.font-display{font-family:var(--font-display);}
+a{text-decoration:none;color:inherit;}
+img{max-width:100%;display:block;}
+.container-xl{max-width:1280px;margin:0 auto;padding:0 24px;}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+}
+
+/* ============ Barre d'annonce ============ */
+.announce-bar{
+  background:var(--navy);
+  color:#fff;
+  font-size:.82rem;
+  letter-spacing:.02em;
+  text-align:center;
+  padding:8px 12px;
+}
+.announce-bar strong{color:var(--orange);}
+
+/* ============ Navigation ============ */
+.sv-navbar{
+  background:rgba(255,255,255,.92);
+  backdrop-filter:saturate(180%) blur(10px);
+  border-bottom:1px solid var(--line);
+  position:sticky; top:0; z-index:1000;
+}
+.sv-navbar .navbar-brand{
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:1.5rem;
+  color:var(--navy);
+  display:flex; align-items:center; gap:10px;
+}
+.sv-navbar .navbar-brand .plate-mark{
+  width:34px;height:34px;border-radius:50%;
+  background:conic-gradient(from 220deg, var(--orange), var(--navy) 55%, var(--orange));
+  position:relative;
+  box-shadow: inset 0 0 0 3px #fff, 0 0 0 1px var(--line);
+}
+.sv-nav-link{
+  font-weight:600;
+  font-size:.94rem;
+  color:var(--ink);
+  padding:10px 14px !important;
+  position:relative;
+}
+.sv-nav-link::after{
+  content:"";
+  position:absolute; left:14px; right:14px; bottom:6px; height:2px;
+  background:var(--orange);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .25s var(--ease);
+}
+.sv-nav-link:hover::after,
+.sv-nav-link.active::after{transform:scaleX(1);}
+.sv-nav-link.active{color:var(--navy);}
+
+.sv-search-btn, .sv-icon-btn{
+  border:1.5px solid var(--line);
+  background:#fff;
+  width:42px;height:42px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  color:var(--navy);
+  transition:all .2s var(--ease);
+}
+.sv-search-btn:hover, .sv-icon-btn:hover{background:var(--navy-tint); border-color:var(--navy);}
+
+/* ============ Boutons ============ */
+.btn-sv-primary{
+  background:var(--orange);
+  border:none;
+  color:#fff !important;
+  font-weight:700;
+  padding:12px 26px;
+  border-radius:999px;
+  transition:transform .2s var(--ease), box-shadow .2s var(--ease), background .2s;
+  box-shadow:0 10px 24px rgba(247,148,29,.28);
+}
+.btn-sv-primary:hover{background:var(--orange-dark); transform:translateY(-2px); box-shadow:0 14px 30px rgba(247,148,29,.36);}
+.btn-sv-outline{
+  background:transparent;
+  border:1.5px solid var(--navy);
+  color:var(--navy) !important;
+  font-weight:700;
+  padding:11px 24px;
+  border-radius:999px;
+  transition:all .2s var(--ease);
+}
+.btn-sv-outline:hover{background:var(--navy); color:#fff !important;}
+.btn-whatsapp{
+  background:var(--success);
+  color:#fff !important;
+  border:none;
+  font-weight:700;
+  border-radius:999px;
+  padding:10px 18px;
+  display:inline-flex; align-items:center; gap:8px;
+  transition:transform .2s var(--ease), box-shadow .2s var(--ease);
+  box-shadow:0 8px 20px rgba(31,168,85,.25);
+  width:100%;
+  justify-content:center;
+}
+.btn-whatsapp:hover{transform:translateY(-2px); box-shadow:0 12px 26px rgba(31,168,85,.35); color:#fff !important;}
+
+/* ============ Hero (signature : assiette radiale) ============ */
+.sv-hero{
+  position:relative;
+  overflow:hidden;
+  background:var(--cream);
+  padding:72px 0 88px;
+}
+.sv-hero .plate-orbit{
+  position:absolute;
+  right:-180px; top:50%; transform:translateY(-50%);
+  width:640px; height:640px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%, #fff 0 38%, transparent 39%),
+    conic-gradient(from 0deg, rgba(10,61,145,.10), rgba(247,148,29,.16), rgba(10,61,145,.10));
+  box-shadow: inset 0 0 0 1px rgba(10,61,145,.08);
+}
+.sv-hero .plate-orbit::before{
+  content:"";
+  position:absolute; inset:70px;
+  border-radius:50%;
+  border:1px dashed rgba(10,61,145,.18);
+}
+.sv-hero-eyebrow{
+  font-family:var(--font-mono);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  font-size:.76rem;
+  color:var(--orange-dark);
+  font-weight:600;
+}
+.sv-hero h1{
+  font-size:clamp(2.4rem, 4.2vw, 3.8rem);
+  line-height:1.05;
+  color:var(--navy);
+  font-weight:600;
+  margin:14px 0 20px;
+  max-width:620px;
+}
+.sv-hero h1 em{color:var(--orange); font-style:normal;}
+.sv-hero p.lead{
+  color:var(--ink-soft);
+  max-width:520px;
+  font-size:1.08rem;
+  margin-bottom:32px;
+}
+.sv-hero-stats{
+  display:flex; gap:36px; margin-top:48px; flex-wrap:wrap;
+}
+.sv-hero-stats .stat-num{
+  font-family:var(--font-mono);
+  font-size:1.6rem; font-weight:600; color:var(--navy);
+}
+.sv-hero-stats .stat-label{font-size:.8rem; color:var(--ink-soft);}
+
+/* ============ Sections ============ */
+.sv-section{padding:76px 0;}
+.sv-section.alt{background:var(--navy-tint);}
+.sv-section-head{
+  display:flex; align-items:flex-end; justify-content:space-between;
+  margin-bottom:36px; flex-wrap:wrap; gap:16px;
+}
+.sv-eyebrow{
+  font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.12em;
+  font-size:.74rem; color:var(--orange-dark); font-weight:600; display:block; margin-bottom:8px;
+}
+.sv-section-head h2{
+  font-size:clamp(1.7rem,2.6vw,2.3rem); color:var(--navy); margin:0; font-weight:600;
+}
+
+/* ============ Catégories ============ */
+.cat-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg) var(--radius-lg) var(--radius-sm) var(--radius-sm);
+  padding:26px 18px;
+  text-align:center;
+  transition:transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s;
+  height:100%;
+}
+.cat-card:hover{transform:translateY(-6px); box-shadow:var(--shadow-lift); border-color:transparent;}
+.cat-card .cat-icon{
+  width:60px;height:60px;border-radius:50%;
+  background:var(--navy-tint);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 14px;
+  color:var(--navy); font-size:1.4rem;
+  transition:background .25s, color .25s;
+}
+.cat-card:hover .cat-icon{background:var(--orange); color:#fff;}
+.cat-card h3{font-size:.98rem; margin:0; font-weight:700; font-family:var(--font-body); color:var(--ink);}
+.cat-card .cat-count{font-size:.78rem; color:var(--ink-soft); margin-top:2px;}
+
+/* ============ Cartes produit ============ */
+.product-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:var(--radius-md);
+  overflow:hidden;
+  height:100%;
+  display:flex; flex-direction:column;
+  transition:transform .25s var(--ease), box-shadow .25s var(--ease);
+  position:relative;
+}
+.product-card:hover{transform:translateY(-5px); box-shadow:var(--shadow-lift);}
+.product-card .pc-media{
+  position:relative;
+  aspect-ratio:1/1;
+  background:var(--navy-tint);
+  overflow:hidden;
+}
+.product-card .pc-media img{width:100%;height:100%;object-fit:cover; transition:transform .5s var(--ease);}
+.product-card:hover .pc-media img{transform:scale(1.06);}
+.pc-badges{position:absolute; top:12px; left:12px; display:flex; flex-direction:column; gap:6px; z-index:2;}
+.pc-badge{
+  font-family:var(--font-mono);
+  font-size:.68rem; font-weight:600; letter-spacing:.03em;
+  padding:4px 10px; border-radius:999px; text-transform:uppercase;
+  color:#fff;
+}
+.pc-badge.new{background:var(--navy);}
+.pc-badge.promo{background:var(--orange);}
+.pc-badge.featured{background:var(--ink);}
+.pc-badge.out{background:var(--danger);}
+.pc-body{padding:16px 16px 18px; display:flex; flex-direction:column; flex:1;}
+.pc-cat{font-size:.72rem; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px;}
+.pc-title{font-weight:700; font-size:1rem; margin:0 0 6px; line-height:1.3; min-height:2.5em;}
+.pc-swatch{width:14px;height:14px;border-radius:50%; display:inline-block; border:1px solid rgba(0,0,0,.15); vertical-align:middle; margin-right:6px;}
+.pc-price-row{display:flex; align-items:baseline; gap:10px; margin:8px 0 14px; font-family:var(--font-mono);}
+.pc-price{font-weight:700; font-size:1.15rem; color:var(--navy);}
+.pc-price-old{font-size:.85rem; color:var(--ink-soft); text-decoration:line-through;}
+.pc-discount{font-size:.72rem; color:var(--orange-dark); font-weight:700;}
+.pc-ref{font-family:var(--font-mono); font-size:.68rem; color:var(--ink-soft); margin-top:auto;}
+
+/* ============ WhatsApp flottant ============ */
+.wa-float{
+  position:fixed; right:22px; bottom:22px; z-index:1200;
+  width:60px; height:60px; border-radius:50%;
+  background:var(--success); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.6rem;
+  box-shadow:0 12px 30px rgba(31,168,85,.4);
+  animation:wa-pulse 2.6s infinite;
+}
+.wa-float:hover{color:#fff;}
+@keyframes wa-pulse{
+  0%{box-shadow:0 0 0 0 rgba(31,168,85,.45), 0 12px 30px rgba(31,168,85,.4);}
+  70%{box-shadow:0 0 0 14px rgba(31,168,85,0), 0 12px 30px rgba(31,168,85,.4);}
+  100%{box-shadow:0 0 0 0 rgba(31,168,85,0), 0 12px 30px rgba(31,168,85,.4);}
+}
+
+/* ============ Footer ============ */
+.sv-footer{background:var(--navy); color:#dfe7f7; padding:64px 0 24px;}
+.sv-footer h5{color:#fff; font-family:var(--font-display); font-weight:600; margin-bottom:16px;}
+.sv-footer a{color:#c3d2ef; transition:color .2s;}
+.sv-footer a:hover{color:var(--orange);}
+.sv-footer .footer-bottom{border-top:1px solid rgba(255,255,255,.12); margin-top:40px; padding-top:20px; font-size:.82rem; color:#9fb2d8;}
+
+/* ============ Filtres / recherche ============ */
+.filter-bar{
+  background:#fff; border:1px solid var(--line); border-radius:var(--radius-md);
+  padding:16px; box-shadow:var(--shadow-soft);
+}
+.form-control-sv, .form-select-sv{
+  border:1.5px solid var(--line); border-radius:var(--radius-sm);
+  padding:10px 14px; font-family:var(--font-body); font-size:.92rem;
+}
+.form-control-sv:focus, .form-select-sv:focus{border-color:var(--navy); box-shadow:0 0 0 3px rgba(10,61,145,.12); outline:none;}
+
+/* ============ Pages statiques (À propos / Contact) ============ */
+.info-card{background:#fff; border:1px solid var(--line); border-radius:var(--radius-md); padding:28px;}
+
+/* ============ Admin ============ */
+.admin-shell{display:flex; min-height:100vh; background:var(--cream);}
+.admin-sidebar{
+  width:260px; background:var(--navy); color:#fff; flex-shrink:0;
+  padding:26px 18px; position:sticky; top:0; height:100vh; overflow-y:auto;
+}
+.admin-sidebar .brand{font-family:var(--font-display); font-size:1.3rem; font-weight:600; margin-bottom:30px; display:flex; gap:10px; align-items:center;}
+.admin-sidebar a.nav-item{
+  display:flex; align-items:center; gap:12px;
+  color:#c3d2ef; padding:11px 14px; border-radius:12px; font-weight:600; font-size:.92rem;
+  margin-bottom:4px; transition:all .2s;
+}
+.admin-sidebar a.nav-item:hover, .admin-sidebar a.nav-item.active{background:rgba(255,255,255,.1); color:#fff;}
+.admin-main{flex:1; padding:32px; min-width:0;}
+.admin-topbar{display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; flex-wrap:wrap; gap:12px;}
+.kpi-card{background:#fff; border:1px solid var(--line); border-radius:var(--radius-md); padding:20px; box-shadow:var(--shadow-soft);}
+.kpi-card .kpi-num{font-family:var(--font-mono); font-size:1.7rem; font-weight:700; color:var(--navy);}
+.kpi-card .kpi-label{font-size:.8rem; color:var(--ink-soft);}
+.admin-card{background:#fff; border:1px solid var(--line); border-radius:var(--radius-md); padding:24px; box-shadow:var(--shadow-soft);}
+.dropzone{
+  border:2px dashed var(--navy); border-radius:var(--radius-md); padding:34px; text-align:center;
+  color:var(--navy); background:var(--navy-tint); cursor:pointer; transition:all .2s;
+}
+.dropzone.dragover{background:#dce8fb; border-color:var(--orange);}
+.img-thumb{
+  position:relative; width:100%; aspect-ratio:1/1; border-radius:10px; overflow:hidden;
+  border:2px solid var(--line); cursor:grab; background:#fff;
+}
+.img-thumb img{width:100%;height:100%;object-fit:cover;}
+.img-thumb .thumb-remove{
+  position:absolute; top:4px; right:4px; background:var(--danger); color:#fff; border:none;
+  width:22px;height:22px;border-radius:50%; font-size:.7rem; line-height:1;
+}
+.img-thumb.is-main{border-color:var(--orange);}
+.img-thumb .main-tag{
+  position:absolute; bottom:4px; left:4px; background:var(--orange); color:#fff; font-size:.6rem;
+  padding:2px 6px; border-radius:6px; font-weight:700; text-transform:uppercase;
+}
+.badge-status-on{background:rgba(31,168,85,.12); color:var(--success); padding:4px 10px; border-radius:999px; font-size:.72rem; font-weight:700;}
+.badge-status-off{background:rgba(228,72,60,.12); color:var(--danger); padding:4px 10px; border-radius:999px; font-size:.72rem; font-weight:700;}
+
+/* Login admin */
+.auth-shell{min-height:100vh; display:flex; align-items:center; justify-content:center; background:var(--navy); background-image:radial-gradient(circle at 20% 20%, rgba(247,148,29,.18), transparent 40%), radial-gradient(circle at 80% 80%, rgba(255,255,255,.08), transparent 40%);}
+.auth-card{background:#fff; border-radius:var(--radius-lg); padding:42px; width:100%; max-width:420px; box-shadow:0 30px 60px rgba(0,0,0,.35);}
+
+/* ============ Skeleton loading ============ */
+.skel{background:linear-gradient(90deg, #eef1f6 25%, #e4e9f2 37%, #eef1f6 63%); background-size:400% 100%; animation:skel 1.4s ease infinite;}
+@keyframes skel{0%{background-position:100% 50%;}100%{background-position:0 50%;}}
+
+/* ============ Focus visibility ============ */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible{
+  outline:3px solid rgba(10,61,145,.45); outline-offset:2px;
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 991px){
+  .sv-hero .plate-orbit{display:none;}
+  .admin-sidebar{position:fixed; left:-280px; z-index:1300; transition:left .25s var(--ease); box-shadow:20px 0 40px rgba(0,0,0,.2);}
+  .admin-sidebar.open{left:0;}
+  .admin-main{padding:20px;}
+}
+@media (max-width: 576px){
+  .sv-hero{padding:52px 0 60px;}
+  .sv-section{padding:52px 0;}
+}
+  </style>
+<script type="application/ld+json">
+  
+{
+  "@context": "https://schema.org",
+  "@type": "Store",
+  "name": "Sen Vaisselle",
+  "image": "images/og-cover.jpg",
+  "telephone": "+221788626180",
+  "address": { "@type": "PostalAddress", "addressLocality": "Dakar", "addressCountry": "SN" },
+  "url": "https://senvaisselle.com/"
+}
+</script>
+</head>
+<body>
+
+<div id="sv-navbar"></div>
+
+<!-- HERO -->
+<header class="sv-hero">
+  <div class="plate-orbit" aria-hidden="true"></div>
+  <div class="container-xl position-relative">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
+        <span class="sv-hero-eyebrow">Boutique en ligne · Dakar, Sénégal</span>
+        <h1>La belle vaisselle <em>d'ici</em>, pour une table qui vous ressemble.</h1>
+        <p class="lead">Assiettes, verres, marmites, ustensiles de cuisine et décoration de table sélectionnés avec soin. Pas de panier, pas de paiement en ligne compliqué : vous choisissez, vous commandez sur WhatsApp.</p>
+        <div class="d-flex flex-wrap gap-3">
+          <a href="pages/boutiques.html" class="btn-sv-primary">Découvrir la boutique <i class="fa-solid fa-arrow-right ms-1"></i></a>
+          <a href="pages/categories.html" class="btn-sv-outline">Voir les catégories</a>
+        </div>
+        <div class="sv-hero-stats">
+          <div><div class="stat-num">18</div><div class="stat-label">catégories</div></div>
+          <div><div class="stat-num">100%</div><div class="stat-label">commande via WhatsApp</div></div>
+          <div><div class="stat-num">24h/24</div><div class="stat-label">boutique accessible</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- CATEGORIES -->
+<section class="sv-section" id="categories">
+  <div class="container-xl">
+    <div class="sv-section-head">
+      <div>
+        <span class="sv-eyebrow">Explorer</span>
+        <h2>Nos catégories</h2>
+      </div>
+      <a href="pages/categorie.html" class="btn-sv-outline">Toutes les catégories</a>
+    </div>
+    <div class="row g-3" id="home-categories"></div>
+  </div>
+</section>
+
+<!-- VEDETTES -->
+<section class="sv-section alt">
+  <div class="container-xl">
+    <div class="sv-section-head">
+      <div>
+        <span class="sv-eyebrow">Sélection</span>
+        <h2>Produits vedettes</h2>
+      </div>
+      <a href="pages/boutiques.html" class="btn-sv-outline">Voir toute la boutique</a>
+    </div>
+    <div class="row g-4" id="home-featured"></div>
+  </div>
+</section>
+
+<!-- NOUVEAUTES -->
+<section class="sv-section">
+  <div class="container-xl">
+    <div class="sv-section-head">
+      <div>
+        <span class="sv-eyebrow">Fraîchement arrivé</span>
+        <h2>Nouveautés</h2>
+      </div>
+      <a href="pages/nouveaute.html" class="btn-sv-outline">Toutes les nouveautés</a>
+    </div>
+    <div class="row g-4" id="home-new"></div>
+  </div>
+</section>
+
+<!-- PROMOTIONS -->
+<section class="sv-section alt">
+  <div class="container-xl">
+    <div class="sv-section-head">
+      <div>
+        <span class="sv-eyebrow">Bonnes affaires</span>
+        <h2>Promotions du moment</h2>
+      </div>
+      <a href="pages/promotions.html" class="btn-sv-outline">Toutes les promotions</a>
+    </div>
+    <div class="row g-4" id="home-promo"></div>
+  </div>
+</section>
+
+<!-- COMMENT CA MARCHE -->
+<section class="sv-section">
+  <div class="container-xl">
+    <div class="sv-section-head">
+      <div>
+        <span class="sv-eyebrow">Simple &amp; direct</span>
+        <h2>Comment commander</h2>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4" data-aos="fade-up">
+        <div class="info-card h-100">
+          <div class="cat-icon mb-3"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <h3 class="h5">1. Parcourez</h3>
+          <p class="text-muted mb-0">Explorez la boutique par catégorie, nouveauté ou promotion, et utilisez la recherche instantanée pour trouver un produit précis.</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="info-card h-100">
+          <div class="cat-icon mb-3"><i class="fa-brands fa-whatsapp"></i></div>
+          <h3 class="h5">2. Commandez sur WhatsApp</h3>
+          <p class="text-muted mb-0">Cliquez sur « Commander sur WhatsApp » : un message avec le nom, la référence et le prix du produit se prépare automatiquement.</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="info-card h-100">
+          <div class="cat-icon mb-3"><i class="fa-solid fa-truck"></i></div>
+          <h3 class="h5">3. Confirmez &amp; recevez</h3>
+          <p class="text-muted mb-0">Nous confirmons la disponibilité et organisons ensemble le retrait ou la livraison. Simple, rapide, sans intermédiaire.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="sv-footer"></div>
+<div id="sv-wa-float"></div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+
+<script>window.SV_BASE = ""; window.SV_PAGE = "accueil";</script>
+<script type="module" src="js/components.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
